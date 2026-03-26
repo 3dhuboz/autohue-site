@@ -40,7 +40,16 @@
 
     /* ── Hero ── */
     .hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 7rem 2rem 3rem; position: relative; overflow: hidden; }
-    .hero::before { content: ''; position: absolute; top: -300px; left: 50%; transform: translateX(-50%); width: 1000px; height: 1000px; background: radial-gradient(circle, rgba(239,68,68,.06) 0%, transparent 60%); pointer-events: none; }
+    /* Grid pattern */
+    .hero::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.02) 1px, transparent 1px); background-size: 60px 60px; mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, black 30%, transparent 100%); pointer-events: none; }
+    /* Gradient orbs */
+    .hero::after { content: ''; position: absolute; top: -200px; left: 50%; transform: translateX(-50%); width: 900px; height: 900px; background: radial-gradient(circle at 30% 40%, rgba(239,68,68,.08) 0%, transparent 50%), radial-gradient(circle at 70% 60%, rgba(249,115,22,.06) 0%, transparent 50%), radial-gradient(circle at 50% 30%, rgba(168,85,247,.04) 0%, transparent 50%); pointer-events: none; animation: hero-glow 8s ease-in-out infinite alternate; }
+    @keyframes hero-glow { 0% { opacity: .6; transform: translateX(-50%) scale(1); } 100% { opacity: 1; transform: translateX(-50%) scale(1.1); } }
+    .hero > * { position: relative; z-index: 1; }
+    /* Floating orbs */
+    .hero-orbs { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+    .hero-orbs .orb { position: absolute; border-radius: 50%; filter: blur(40px); opacity: .12; animation: orb-float 12s ease-in-out infinite; }
+    @keyframes orb-float { 0%,100% { transform: translateY(0) translateX(0); } 33% { transform: translateY(-30px) translateX(15px); } 66% { transform: translateY(20px) translateX(-20px); } }
     .hero-badge { display: inline-flex; align-items: center; gap: .5rem; padding: .4rem 1rem; border-radius: 2rem; border: 1px solid var(--w10); background: var(--w05); font-size: .75rem; color: var(--w40); margin-bottom: 1.75rem; backdrop-filter: blur(10px); }
     .hero-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: #22c55e; animation: pulse 2s infinite; }
     @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: .4; } }
@@ -209,6 +218,13 @@
 
   <!-- ── Hero ── -->
   <section class="hero">
+    <div class="hero-orbs">
+      <div class="orb" style="width:300px;height:300px;background:#ef4444;top:15%;left:10%;animation-delay:0s;"></div>
+      <div class="orb" style="width:250px;height:250px;background:#f97316;top:60%;right:10%;animation-delay:-4s;"></div>
+      <div class="orb" style="width:200px;height:200px;background:#3b82f6;bottom:20%;left:30%;animation-delay:-8s;"></div>
+      <div class="orb" style="width:180px;height:180px;background:#a855f7;top:30%;right:25%;animation-delay:-2s;"></div>
+      <div class="orb" style="width:150px;height:150px;background:#22c55e;bottom:30%;right:35%;animation-delay:-6s;"></div>
+    </div>
     <div class="hero-badge"><span class="dot"></span> AI Vision Pro engine — 3+ images/sec</div>
     <h1>Sort Car Photos by<br><span class="accent">Color</span>, Instantly</h1>
     <p>Drop thousands of motorsport photos. AI detects every car and sorts them into color folders. Built for event photographers.</p>
