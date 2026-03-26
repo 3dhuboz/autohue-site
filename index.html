@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AutoHue — AI Car Photo Color Sorter</title>
-  <meta name="description" content="Sort thousands of motorsport photos by car color in seconds. AI-powered desktop app for photographers.">
+  <title>AutoHue — AI Car Photo Color Sorter for Motorsport Photographers</title>
+  <meta name="description" content="Sort thousands of motorsport photos by car color in seconds. AI-powered desktop app for event photographers. Free trial.">
   <link rel="icon" type="image/svg+xml" href="/logo.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@700;800&display=swap" rel="stylesheet">
@@ -13,117 +13,187 @@
     :root {
       --bg: #09090b; --bg2: #111113; --bg3: #18181b;
       --red: #ef4444; --red-glow: rgba(239,68,68,.15);
-      --white70: rgba(255,255,255,.7); --white40: rgba(255,255,255,.4);
-      --white20: rgba(255,255,255,.2); --white10: rgba(255,255,255,.1);
-      --white05: rgba(255,255,255,.05);
+      --w90: rgba(255,255,255,.9); --w70: rgba(255,255,255,.7); --w40: rgba(255,255,255,.4);
+      --w20: rgba(255,255,255,.2); --w10: rgba(255,255,255,.1); --w05: rgba(255,255,255,.05);
     }
     body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: #fff; overflow-x: hidden; line-height: 1.6; -webkit-font-smoothing: antialiased; }
     h1, h2, h3 { font-family: 'Space Grotesk', sans-serif; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+    .accent { background: linear-gradient(135deg, var(--red), #f97316); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-    /* Nav */
-    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 50; padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between; background: rgba(9,9,11,.8); backdrop-filter: blur(20px); border-bottom: 1px solid var(--white05); }
+    /* ── Nav ── */
+    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 50; padding: .875rem 2rem; display: flex; align-items: center; justify-content: space-between; background: rgba(9,9,11,.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--w05); }
     .nav-logo { display: flex; align-items: center; gap: .75rem; text-decoration: none; }
     .nav-logo img { width: 32px; height: 32px; }
-    .nav-logo span { font-family: 'Space Grotesk', sans-serif; font-weight: 800; font-size: 1.1rem; background: linear-gradient(135deg, #fff 30%, var(--red)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .nav-logo span { font-family: 'Space Grotesk'; font-weight: 800; font-size: 1.1rem; background: linear-gradient(135deg, #fff 30%, var(--red)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
     .nav-links { display: flex; gap: 2rem; align-items: center; }
-    .nav-links a { color: var(--white40); text-decoration: none; font-size: .875rem; font-weight: 500; transition: color .2s; }
+    .nav-links a { color: var(--w40); text-decoration: none; font-size: .85rem; font-weight: 500; transition: color .2s; }
     .nav-links a:hover { color: #fff; }
-    .btn { display: inline-flex; align-items: center; gap: .5rem; padding: .625rem 1.5rem; border-radius: .75rem; font-weight: 700; font-size: .875rem; text-decoration: none; transition: all .2s; border: none; cursor: pointer; }
-    .btn-red { background: var(--red); color: #fff; box-shadow: 0 0 30px var(--red-glow); }
-    .btn-red:hover { background: #dc2626; transform: translateY(-1px); box-shadow: 0 0 40px rgba(239,68,68,.3); }
-    .btn-outline { background: transparent; color: var(--white70); border: 1px solid var(--white10); }
-    .btn-outline:hover { border-color: var(--white20); background: var(--white05); }
 
-    /* Hero */
-    .hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 8rem 2rem 4rem; position: relative; overflow: hidden; }
-    .hero::before { content: ''; position: absolute; top: -200px; left: 50%; transform: translateX(-50%); width: 800px; height: 800px; background: radial-gradient(circle, rgba(239,68,68,.08) 0%, transparent 70%); pointer-events: none; }
-    .hero-badge { display: inline-flex; align-items: center; gap: .5rem; padding: .375rem 1rem; border-radius: 2rem; border: 1px solid var(--white10); background: var(--white05); font-size: .75rem; color: var(--white40); margin-bottom: 2rem; }
+    /* ── Buttons ── */
+    .btn { display: inline-flex; align-items: center; gap: .5rem; padding: .7rem 1.75rem; border-radius: .75rem; font-weight: 700; font-size: .875rem; text-decoration: none; transition: all .25s; border: none; cursor: pointer; }
+    .btn-red { background: var(--red); color: #fff; box-shadow: 0 0 30px var(--red-glow), 0 4px 20px rgba(0,0,0,.3); }
+    .btn-red:hover { background: #dc2626; transform: translateY(-2px); box-shadow: 0 0 50px rgba(239,68,68,.3), 0 8px 30px rgba(0,0,0,.4); }
+    .btn-outline { background: transparent; color: var(--w70); border: 1px solid var(--w10); }
+    .btn-outline:hover { border-color: var(--w20); background: var(--w05); }
+    .btn-lg { font-size: 1rem; padding: .9rem 2.5rem; }
+
+    /* ── Hero ── */
+    .hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 7rem 2rem 3rem; position: relative; overflow: hidden; }
+    .hero::before { content: ''; position: absolute; top: -300px; left: 50%; transform: translateX(-50%); width: 1000px; height: 1000px; background: radial-gradient(circle, rgba(239,68,68,.06) 0%, transparent 60%); pointer-events: none; }
+    .hero-badge { display: inline-flex; align-items: center; gap: .5rem; padding: .4rem 1rem; border-radius: 2rem; border: 1px solid var(--w10); background: var(--w05); font-size: .75rem; color: var(--w40); margin-bottom: 1.75rem; backdrop-filter: blur(10px); }
     .hero-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: #22c55e; animation: pulse 2s infinite; }
     @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: .4; } }
-    .hero h1 { font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 800; line-height: 1.1; margin-bottom: 1.5rem; }
-    .hero h1 .accent { background: linear-gradient(135deg, var(--red), #f97316); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    .hero p { font-size: 1.125rem; color: var(--white40); max-width: 550px; margin: 0 auto 2.5rem; }
-    .hero-cta { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
-    .hero-stats { display: flex; gap: 3rem; margin-top: 4rem; }
-    .hero-stats .stat { text-align: center; }
-    .hero-stats .stat-value { font-family: 'Space Grotesk', sans-serif; font-size: 2rem; font-weight: 800; color: var(--red); }
-    .hero-stats .stat-label { font-size: .75rem; color: var(--white40); margin-top: .25rem; }
+    .hero h1 { font-size: clamp(2.5rem, 5.5vw, 4rem); font-weight: 800; line-height: 1.1; margin-bottom: 1.25rem; letter-spacing: -.02em; }
+    .hero p { font-size: 1.1rem; color: var(--w40); max-width: 520px; margin: 0 auto 2rem; }
+    .hero-cta { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-bottom: 3rem; }
 
-    /* Color dots animation */
-    .color-dots { display: flex; gap: .75rem; justify-content: center; margin-top: 3rem; }
-    .color-dots .dot { width: 12px; height: 12px; border-radius: 50%; animation: float 3s ease-in-out infinite; }
-    @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+    /* ── App mockup ── */
+    .app-mockup { width: 100%; max-width: 900px; background: var(--bg2); border: 1px solid var(--w10); border-radius: 1rem; overflow: hidden; box-shadow: 0 30px 100px rgba(0,0,0,.6), 0 0 80px var(--red-glow); position: relative; }
+    .app-titlebar { display: flex; align-items: center; gap: .5rem; padding: .6rem 1rem; background: var(--bg); border-bottom: 1px solid var(--w05); }
+    .app-titlebar .dot { width: 10px; height: 10px; border-radius: 50%; }
+    .app-tabs { display: flex; gap: 0; margin-left: 1rem; }
+    .app-tabs span { padding: .3rem .75rem; font-size: .65rem; color: var(--w40); border-radius: .375rem; }
+    .app-tabs span.active { background: var(--red); color: #fff; font-weight: 700; }
+    .app-body { padding: 1.5rem; }
 
-    /* Screenshot */
-    .screenshot-section { padding: 0 2rem 6rem; display: flex; justify-content: center; }
-    .screenshot-wrap { max-width: 1000px; width: 100%; border-radius: 1rem; overflow: hidden; border: 1px solid var(--white10); box-shadow: 0 25px 80px rgba(0,0,0,.5), 0 0 60px var(--red-glow); }
-    .screenshot-wrap img { width: 100%; display: block; }
+    /* Dashboard gauges mockup */
+    .gauges { display: grid; grid-template-columns: repeat(6, 1fr); gap: .75rem; margin-bottom: 1.25rem; }
+    .gauge { text-align: center; padding: .75rem .25rem; background: var(--w05); border-radius: .75rem; border: 1px solid var(--w05); }
+    .gauge-val { font-family: 'Space Grotesk'; font-size: 1.25rem; font-weight: 800; }
+    .gauge-label { font-size: .55rem; color: var(--w40); text-transform: uppercase; letter-spacing: .08em; margin-top: .125rem; }
 
-    /* How it works */
-    .how { padding: 6rem 2rem; max-width: 1000px; margin: 0 auto; }
-    .how h2 { text-align: center; font-size: 2.25rem; margin-bottom: 1rem; }
-    .how .subtitle { text-align: center; color: var(--white40); margin-bottom: 4rem; }
-    .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
-    .step { background: var(--bg2); border: 1px solid var(--white05); border-radius: 1rem; padding: 2rem; text-align: center; transition: all .3s; }
-    .step:hover { border-color: var(--white10); transform: translateY(-4px); }
-    .step-num { width: 48px; height: 48px; border-radius: 50%; background: var(--red-glow); border: 1px solid rgba(239,68,68,.2); display: flex; align-items: center; justify-content: center; font-family: 'Space Grotesk'; font-weight: 800; font-size: 1.25rem; color: var(--red); margin: 0 auto 1.5rem; }
-    .step h3 { font-size: 1.1rem; margin-bottom: .75rem; }
-    .step p { font-size: .875rem; color: var(--white40); }
+    /* Live feed mockup */
+    .feed-row { display: flex; gap: .5rem; overflow: hidden; margin-top: 1rem; }
+    .feed-thumb { width: 72px; height: 52px; border-radius: .375rem; position: relative; overflow: hidden; flex-shrink: 0; }
+    .feed-thumb .color-bar { position: absolute; bottom: 0; left: 0; right: 0; padding: .125rem .25rem; font-size: .45rem; color: #fff; display: flex; align-items: center; gap: .2rem; background: rgba(0,0,0,.7); }
+    .feed-thumb .color-bar .cd { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
 
-    /* Features */
-    .features { padding: 6rem 2rem; background: var(--bg2); }
-    .features-inner { max-width: 1000px; margin: 0 auto; }
-    .features h2 { text-align: center; font-size: 2.25rem; margin-bottom: 3rem; }
-    .feature-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
-    .feature { padding: 1.5rem; border-radius: 1rem; border: 1px solid var(--white05); background: var(--bg); }
-    .feature-icon { font-size: 1.5rem; margin-bottom: .75rem; }
-    .feature h3 { font-size: 1rem; margin-bottom: .5rem; }
-    .feature p { font-size: .8rem; color: var(--white40); }
+    /* ── Stats bar ── */
+    .stats-bar { display: flex; justify-content: center; gap: 4rem; padding: 3rem 2rem; }
+    .stat { text-align: center; }
+    .stat-val { font-family: 'Space Grotesk'; font-size: 2.5rem; font-weight: 800; }
+    .stat-val .accent { font-size: inherit; }
+    .stat-label { font-size: .8rem; color: var(--w40); margin-top: .25rem; }
 
-    /* Pricing */
-    .pricing { padding: 6rem 2rem; max-width: 1100px; margin: 0 auto; }
-    .pricing h2 { text-align: center; font-size: 2.25rem; margin-bottom: .75rem; }
-    .pricing .subtitle { text-align: center; color: var(--white40); margin-bottom: 3rem; }
+    /* ── Color spectrum ── */
+    .spectrum { display: flex; justify-content: center; gap: .5rem; padding: 2rem; }
+    .spectrum .swatch { width: 40px; height: 40px; border-radius: 50%; transition: all .3s; cursor: default; position: relative; }
+    .spectrum .swatch:hover { transform: scale(1.3); }
+    .spectrum .swatch::after { content: attr(data-name); position: absolute; top: 115%; left: 50%; transform: translateX(-50%); font-size: .55rem; color: var(--w40); white-space: nowrap; opacity: 0; transition: opacity .2s; }
+    .spectrum .swatch:hover::after { opacity: 1; }
+
+    /* ── How it works ── */
+    .how { padding: 6rem 0; }
+    .section-title { text-align: center; font-size: 2.25rem; margin-bottom: .75rem; }
+    .section-sub { text-align: center; color: var(--w40); margin-bottom: 4rem; font-size: 1rem; }
+    .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    .step { background: var(--bg2); border: 1px solid var(--w05); border-radius: 1rem; padding: 0; overflow: hidden; transition: all .3s; }
+    .step:hover { border-color: var(--w10); transform: translateY(-4px); box-shadow: 0 20px 60px rgba(0,0,0,.3); }
+    .step-visual { height: 180px; background: var(--bg3); position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+    .step-content { padding: 1.5rem; }
+    .step-num { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 50%; background: var(--red-glow); border: 1px solid rgba(239,68,68,.2); font-family: 'Space Grotesk'; font-weight: 800; font-size: .8rem; color: var(--red); margin-bottom: .75rem; }
+    .step h3 { font-size: 1.05rem; margin-bottom: .5rem; }
+    .step p { font-size: .825rem; color: var(--w40); line-height: 1.5; }
+
+    /* Step 1 visual: scattered photos */
+    .scattered-photos { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; padding: 12px; width: 100%; }
+    .scattered-photos .ph { border-radius: 4px; aspect-ratio: 4/3; }
+
+    /* Step 2 visual: AI brain */
+    .ai-brain { width: 80px; height: 80px; border-radius: 50%; background: radial-gradient(circle, rgba(239,68,68,.2), transparent); border: 2px solid rgba(239,68,68,.3); display: flex; align-items: center; justify-content: center; animation: brain-pulse 2s ease-in-out infinite; position: relative; }
+    .ai-brain::before { content: ''; position: absolute; inset: -12px; border-radius: 50%; border: 1px solid rgba(239,68,68,.1); animation: brain-ring 3s linear infinite; }
+    @keyframes brain-pulse { 0%,100% { box-shadow: 0 0 20px rgba(239,68,68,.1); } 50% { box-shadow: 0 0 40px rgba(239,68,68,.25); } }
+    @keyframes brain-ring { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    .ai-brain svg { width: 36px; height: 36px; color: var(--red); opacity: .7; }
+
+    /* Step 3 visual: sorted folders */
+    .sorted-folders { display: flex; gap: 8px; padding: 16px; }
+    .folder { flex: 1; background: var(--bg); border-radius: 8px; padding: 8px 6px; text-align: center; border: 1px solid var(--w05); }
+    .folder-icon { font-size: 1.5rem; margin-bottom: 4px; }
+    .folder-name { font-size: .55rem; color: var(--w40); }
+    .folder-count { font-size: .7rem; font-weight: 700; margin-top: 2px; }
+    .folder-dots { display: flex; gap: 2px; justify-content: center; margin-top: 4px; }
+    .folder-dots span { width: 4px; height: 4px; border-radius: 50%; }
+
+    /* ── Before/After ── */
+    .before-after { padding: 6rem 0; }
+    .ba-grid { display: grid; grid-template-columns: 1fr auto 1fr; gap: 2rem; align-items: center; }
+    .ba-panel { background: var(--bg2); border: 1px solid var(--w05); border-radius: 1rem; padding: 1.5rem; }
+    .ba-panel h3 { font-size: .7rem; text-transform: uppercase; letter-spacing: .1em; color: var(--w40); margin-bottom: 1rem; }
+    .ba-arrow { font-size: 2rem; color: var(--red); animation: arrow-bounce 1.5s ease-in-out infinite; }
+    @keyframes arrow-bounce { 0%,100% { transform: translateX(0); } 50% { transform: translateX(8px); } }
+    .messy-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; }
+    .messy-grid .ph { aspect-ratio: 1; border-radius: 4px; }
+    .sorted-grid { display: flex; flex-direction: column; gap: 8px; }
+    .sorted-row { display: flex; align-items: center; gap: 8px; }
+    .sorted-row .label { font-size: .65rem; width: 60px; color: var(--w40); display: flex; align-items: center; gap: 4px; }
+    .sorted-row .label .cd { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    .sorted-row .thumbs { display: flex; gap: 3px; }
+    .sorted-row .thumbs .ph { width: 28px; height: 20px; border-radius: 3px; }
+
+    /* ── Features ── */
+    .features { padding: 6rem 0; background: var(--bg2); }
+    .feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+    .feature { padding: 1.75rem; border-radius: 1rem; border: 1px solid var(--w05); background: var(--bg); transition: all .3s; }
+    .feature:hover { border-color: var(--w10); transform: translateY(-2px); }
+    .feature-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; margin-bottom: 1rem; }
+    .feature h3 { font-size: .95rem; margin-bottom: .5rem; font-family: 'Space Grotesk'; }
+    .feature p { font-size: .8rem; color: var(--w40); line-height: 1.5; }
+
+    /* ── Pricing ── */
+    .pricing { padding: 6rem 0; }
     .pricing-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem; }
-    .plan { background: var(--bg2); border: 1px solid var(--white05); border-radius: 1rem; padding: 2rem 1.5rem; position: relative; transition: all .3s; }
-    .plan:hover { border-color: var(--white10); transform: translateY(-4px); }
-    .plan.featured { border-color: var(--red); box-shadow: 0 0 40px var(--red-glow); }
-    .plan.featured .plan-badge { position: absolute; top: -.75rem; left: 50%; transform: translateX(-50%); background: var(--red); color: #fff; font-size: .65rem; font-weight: 700; padding: .25rem .75rem; border-radius: 1rem; text-transform: uppercase; letter-spacing: .05em; }
-    .plan-tier { font-size: .75rem; text-transform: uppercase; letter-spacing: .1em; color: var(--white40); margin-bottom: .5rem; }
-    .plan-price { font-family: 'Space Grotesk'; font-size: 2.5rem; font-weight: 800; margin-bottom: .25rem; }
-    .plan-desc { font-size: .75rem; color: var(--white40); margin-bottom: 1.5rem; }
+    .plan { background: var(--bg2); border: 1px solid var(--w05); border-radius: 1rem; padding: 2rem 1.5rem; position: relative; transition: all .3s; }
+    .plan:hover { border-color: var(--w10); transform: translateY(-4px); }
+    .plan.pop { border-color: var(--red); box-shadow: 0 0 40px var(--red-glow); }
+    .plan.pop .badge { position: absolute; top: -.75rem; left: 50%; transform: translateX(-50%); background: var(--red); color: #fff; font-size: .6rem; font-weight: 700; padding: .25rem .75rem; border-radius: 1rem; text-transform: uppercase; letter-spacing: .05em; }
+    .plan-tier { font-size: .7rem; text-transform: uppercase; letter-spacing: .1em; color: var(--w40); margin-bottom: .5rem; }
+    .plan-price { font-family: 'Space Grotesk'; font-size: 2.5rem; font-weight: 800; margin-bottom: .125rem; }
+    .plan-price small { font-size: .9rem; font-weight: 500; color: var(--w40); }
+    .plan-desc { font-size: .7rem; color: var(--w40); margin-bottom: 1.5rem; }
     .plan-features { list-style: none; margin-bottom: 2rem; }
-    .plan-features li { font-size: .8rem; color: var(--white70); padding: .375rem 0; display: flex; align-items: center; gap: .5rem; }
+    .plan-features li { font-size: .8rem; color: var(--w70); padding: .4rem 0; display: flex; align-items: center; gap: .5rem; }
     .plan-features li::before { content: ''; width: 4px; height: 4px; border-radius: 50%; background: var(--red); flex-shrink: 0; }
     .plan .btn { width: 100%; justify-content: center; }
 
-    /* CTA */
-    .cta { padding: 6rem 2rem; text-align: center; }
-    .cta h2 { font-size: 2.25rem; margin-bottom: 1rem; }
-    .cta p { color: var(--white40); margin-bottom: 2rem; max-width: 500px; margin-left: auto; margin-right: auto; }
+    /* ── Social proof ── */
+    .proof { padding: 4rem 0; text-align: center; }
+    .proof-quote { font-size: 1.2rem; font-style: italic; color: var(--w70); max-width: 600px; margin: 0 auto 1rem; }
+    .proof-attr { font-size: .8rem; color: var(--w40); }
 
-    /* Footer */
-    .footer { padding: 3rem 2rem; border-top: 1px solid var(--white05); text-align: center; }
-    .footer p { font-size: .75rem; color: var(--white20); }
-    .footer a { color: var(--white40); text-decoration: none; }
+    /* ── CTA ── */
+    .cta { padding: 6rem 0; text-align: center; position: relative; }
+    .cta::before { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 600px; height: 600px; background: radial-gradient(circle, rgba(239,68,68,.06) 0%, transparent 60%); pointer-events: none; }
+    .cta h2 { font-size: 2.25rem; margin-bottom: 1rem; position: relative; }
+    .cta p { color: var(--w40); margin-bottom: 2rem; max-width: 450px; margin-left: auto; margin-right: auto; position: relative; }
+
+    /* ── Footer ── */
+    .footer { padding: 3rem 2rem; border-top: 1px solid var(--w05); text-align: center; }
+    .footer p { font-size: .75rem; color: var(--w20); }
+    .footer a { color: var(--w40); text-decoration: none; }
     .footer a:hover { color: #fff; }
 
-    /* Responsive */
+    /* ── Responsive ── */
     @media (max-width: 768px) {
-      .steps { grid-template-columns: 1fr; }
-      .feature-grid { grid-template-columns: 1fr; }
+      .steps, .feature-grid { grid-template-columns: 1fr; }
       .pricing-grid { grid-template-columns: 1fr 1fr; }
-      .hero-stats { gap: 1.5rem; }
+      .ba-grid { grid-template-columns: 1fr; }
+      .ba-arrow { transform: rotate(90deg); }
+      .stats-bar { gap: 2rem; flex-wrap: wrap; }
+      .gauges { grid-template-columns: repeat(3, 1fr); }
       .nav-links { display: none; }
     }
-    @media (max-width: 480px) {
-      .pricing-grid { grid-template-columns: 1fr; }
-    }
+    @media (max-width: 480px) { .pricing-grid { grid-template-columns: 1fr; } }
+
+    /* Animations */
+    @keyframes fade-up { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    .fade-up { animation: fade-up .6s ease-out both; }
   </style>
 </head>
 <body>
 
-  <!-- Nav -->
+  <!-- ── Nav ── -->
   <nav class="nav">
     <a href="/" class="nav-logo">
       <img src="/logo.svg" alt="AutoHue">
@@ -133,183 +203,353 @@
       <a href="#how">How It Works</a>
       <a href="#features">Features</a>
       <a href="#pricing">Pricing</a>
-      <a href="#download" class="btn btn-red">Download</a>
+      <a href="#download" class="btn btn-red" style="padding:.5rem 1.25rem;font-size:.8rem;">Download Free</a>
     </div>
   </nav>
 
-  <!-- Hero -->
+  <!-- ── Hero ── -->
   <section class="hero">
-    <div class="hero-badge">
-      <span class="dot"></span>
-      AI Vision Pro engine
-    </div>
-    <h1>Sort Car Photos<br>by <span class="accent">Color</span>, Instantly</h1>
-    <p>Drop thousands of motorsport photos and let AI sort them into color folders in seconds. Built for photographers who shoot events, not sort files.</p>
+    <div class="hero-badge"><span class="dot"></span> AI Vision Pro engine — 3+ images/sec</div>
+    <h1>Sort Car Photos by<br><span class="accent">Color</span>, Instantly</h1>
+    <p>Drop thousands of motorsport photos. AI detects every car and sorts them into color folders. Built for event photographers.</p>
     <div class="hero-cta">
-      <a href="#download" class="btn btn-red">
+      <a href="#download" class="btn btn-red btn-lg">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
         Download for Windows
       </a>
       <a href="#how" class="btn btn-outline">See How It Works</a>
     </div>
-    <div class="hero-stats">
-      <div class="stat">
-        <div class="stat-value">3+</div>
-        <div class="stat-label">images / second</div>
+
+    <!-- App mockup -->
+    <div class="app-mockup" style="margin-top:1rem;">
+      <div class="app-titlebar">
+        <div class="dot" style="background:#ef4444"></div>
+        <div class="dot" style="background:#eab308"></div>
+        <div class="dot" style="background:#22c55e"></div>
+        <div class="app-tabs">
+          <span>AutoHue</span>
+          <span class="active">Sort Photos</span>
+          <span>History</span>
+          <span>Settings</span>
+        </div>
       </div>
-      <div class="stat">
-        <div class="stat-value">11</div>
-        <div class="stat-label">color categories</div>
+      <div class="app-body">
+        <div style="text-align:center;margin-bottom:1rem;">
+          <span style="font-family:'Space Grotesk';font-weight:800;font-size:1.1rem;">Sorting in Progress</span>
+          <span style="display:inline-flex;align-items:center;gap:4px;margin-left:8px;padding:2px 8px;border-radius:99px;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.2);font-size:.6rem;color:#22c55e;font-weight:700;"><span style="width:5px;height:5px;border-radius:50%;background:#22c55e;"></span> AI Vision Pro</span>
+        </div>
+        <div class="gauges">
+          <div class="gauge"><div class="gauge-val" style="color:#22c55e">2.9</div><div class="gauge-label">img/sec</div></div>
+          <div class="gauge"><div class="gauge-val" style="color:#f97316">61%</div><div class="gauge-label">Progress</div></div>
+          <div class="gauge"><div class="gauge-val" style="color:#22c55e">95%</div><div class="gauge-label">Accuracy</div></div>
+          <div class="gauge"><div class="gauge-val" style="color:#3b82f6">43s</div><div class="gauge-label">ETA</div></div>
+          <div class="gauge"><div class="gauge-val" style="color:#22c55e">2h 7m</div><div class="gauge-label">Time Saved</div></div>
+          <div class="gauge"><div class="gauge-val" style="color:#22c55e">$181</div><div class="gauge-label">Cost Saved</div></div>
+        </div>
+        <div style="background:var(--w05);border-radius:.5rem;padding:.5rem .75rem;display:flex;align-items:center;justify-content:space-between;">
+          <span style="font-size:.6rem;color:var(--w40);">Processing: 6th Feb Powercruise Friday C - (203).JPG</span>
+          <span style="font-size:.6rem;color:var(--w70);font-weight:700;">103 / 168</span>
+        </div>
+        <div style="height:4px;background:var(--w05);border-radius:2px;margin-top:4px;overflow:hidden;">
+          <div style="width:61%;height:100%;background:linear-gradient(90deg,var(--red),#f97316);border-radius:2px;"></div>
+        </div>
+        <div class="feed-row">
+          <div class="feed-thumb" style="background:linear-gradient(135deg,#cbd5e1,#94a3b8)"><div class="color-bar"><span class="cd" style="background:#94a3b8"></span>Silver/Grey</div></div>
+          <div class="feed-thumb" style="background:linear-gradient(135deg,#dbeafe,#93c5fd)"><div class="color-bar"><span class="cd" style="background:#3b82f6"></span>Blue</div></div>
+          <div class="feed-thumb" style="background:linear-gradient(135deg,#e2e8f0,#f1f5f9)"><div class="color-bar"><span class="cd" style="background:#e2e8f0"></span>White</div></div>
+          <div class="feed-thumb" style="background:linear-gradient(135deg,#fef3c7,#fcd34d)"><div class="color-bar"><span class="cd" style="background:#eab308"></span>Yellow</div></div>
+          <div class="feed-thumb" style="background:linear-gradient(135deg,#fecaca,#f87171)"><div class="color-bar"><span class="cd" style="background:#ef4444"></span>Red</div></div>
+          <div class="feed-thumb" style="background:linear-gradient(135deg,#fed7aa,#fb923c)"><div class="color-bar"><span class="cd" style="background:#f97316"></span>Orange</div></div>
+          <div class="feed-thumb" style="background:linear-gradient(135deg,#cbd5e1,#94a3b8)"><div class="color-bar"><span class="cd" style="background:#94a3b8"></span>Silver/Grey</div></div>
+          <div class="feed-thumb" style="background:linear-gradient(135deg,#e2e8f0,#f1f5f9)"><div class="color-bar"><span class="cd" style="background:#e2e8f0"></span>White</div></div>
+          <div class="feed-thumb" style="background:linear-gradient(135deg,#1e293b,#334155)"><div class="color-bar"><span class="cd" style="background:#334155"></span>Black</div></div>
+          <div class="feed-thumb" style="background:linear-gradient(135deg,#fecaca,#f87171)"><div class="color-bar"><span class="cd" style="background:#ef4444"></span>Red</div></div>
+        </div>
       </div>
-      <div class="stat">
-        <div class="stat-value">5,000+</div>
-        <div class="stat-label">images per batch</div>
-      </div>
-    </div>
-    <div class="color-dots">
-      <div class="dot" style="background:#ef4444;animation-delay:0s"></div>
-      <div class="dot" style="background:#f97316;animation-delay:.2s"></div>
-      <div class="dot" style="background:#eab308;animation-delay:.4s"></div>
-      <div class="dot" style="background:#22c55e;animation-delay:.6s"></div>
-      <div class="dot" style="background:#3b82f6;animation-delay:.8s"></div>
-      <div class="dot" style="background:#a855f7;animation-delay:1s"></div>
-      <div class="dot" style="background:#ec4899;animation-delay:1.2s"></div>
-      <div class="dot" style="background:#94a3b8;animation-delay:1.4s"></div>
-      <div class="dot" style="background:#fff;animation-delay:1.6s;border:1px solid rgba(255,255,255,.2)"></div>
-      <div class="dot" style="background:#1e293b;animation-delay:1.8s;border:1px solid rgba(255,255,255,.1)"></div>
-      <div class="dot" style="background:#a16207;animation-delay:2s"></div>
     </div>
   </section>
 
-  <!-- How It Works -->
-  <section id="how" class="how">
-    <h2>How It Works</h2>
-    <p class="subtitle">Three steps. Zero manual sorting.</p>
+  <!-- ── Stats ── -->
+  <div class="stats-bar">
+    <div class="stat"><div class="stat-val"><span class="accent">3+</span></div><div class="stat-label">images per second</div></div>
+    <div class="stat"><div class="stat-val"><span class="accent">11</span></div><div class="stat-label">color categories</div></div>
+    <div class="stat"><div class="stat-val"><span class="accent">5,000+</span></div><div class="stat-label">images per batch</div></div>
+    <div class="stat"><div class="stat-val"><span class="accent">95%</span></div><div class="stat-label">accuracy rate</div></div>
+  </div>
+
+  <!-- ── Color spectrum ── -->
+  <div class="spectrum">
+    <div class="swatch" style="background:#ef4444;animation:float 3s ease-in-out .0s infinite" data-name="Red"></div>
+    <div class="swatch" style="background:#f97316;animation:float 3s ease-in-out .15s infinite" data-name="Orange"></div>
+    <div class="swatch" style="background:#eab308;animation:float 3s ease-in-out .3s infinite" data-name="Yellow"></div>
+    <div class="swatch" style="background:#22c55e;animation:float 3s ease-in-out .45s infinite" data-name="Green"></div>
+    <div class="swatch" style="background:#3b82f6;animation:float 3s ease-in-out .6s infinite" data-name="Blue"></div>
+    <div class="swatch" style="background:#a855f7;animation:float 3s ease-in-out .75s infinite" data-name="Purple"></div>
+    <div class="swatch" style="background:#ec4899;animation:float 3s ease-in-out .9s infinite" data-name="Pink"></div>
+    <div class="swatch" style="background:#a16207;animation:float 3s ease-in-out 1.05s infinite" data-name="Brown"></div>
+    <div class="swatch" style="background:#1e293b;border:2px solid var(--w10);animation:float 3s ease-in-out 1.2s infinite" data-name="Black"></div>
+    <div class="swatch" style="background:#e2e8f0;animation:float 3s ease-in-out 1.35s infinite" data-name="White"></div>
+    <div class="swatch" style="background:#94a3b8;animation:float 3s ease-in-out 1.5s infinite" data-name="Silver/Grey"></div>
+  </div>
+  @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+
+  <!-- ── How It Works ── -->
+  <section id="how" class="how container">
+    <h2 class="section-title">How It Works</h2>
+    <p class="section-sub">Three steps. Zero manual sorting.</p>
     <div class="steps">
       <div class="step">
-        <div class="step-num">1</div>
-        <h3>Drop Your Photos</h3>
-        <p>Drag and drop a folder, ZIP, or RAR file. AutoHue accepts JPG, PNG, and WEBP — up to 5,000+ images per batch.</p>
+        <div class="step-visual">
+          <div class="scattered-photos">
+            <div class="ph" style="background:linear-gradient(135deg,#fecaca,#f87171)"></div>
+            <div class="ph" style="background:linear-gradient(135deg,#e2e8f0,#cbd5e1)"></div>
+            <div class="ph" style="background:linear-gradient(135deg,#dbeafe,#93c5fd)"></div>
+            <div class="ph" style="background:linear-gradient(135deg,#fef3c7,#fcd34d)"></div>
+            <div class="ph" style="background:linear-gradient(135deg,#1e293b,#334155)"></div>
+            <div class="ph" style="background:linear-gradient(135deg,#fed7aa,#fb923c)"></div>
+            <div class="ph" style="background:linear-gradient(135deg,#cbd5e1,#94a3b8)"></div>
+            <div class="ph" style="background:linear-gradient(135deg,#fecaca,#f87171)"></div>
+            <div class="ph" style="background:linear-gradient(135deg,#e2e8f0,#f1f5f9)"></div>
+            <div class="ph" style="background:linear-gradient(135deg,#dbeafe,#93c5fd)"></div>
+            <div class="ph" style="background:linear-gradient(135deg,#cbd5e1,#94a3b8)"></div>
+            <div class="ph" style="background:linear-gradient(135deg,#fef3c7,#fcd34d)"></div>
+          </div>
+        </div>
+        <div class="step-content">
+          <div class="step-num">1</div>
+          <h3>Drop Your Photos</h3>
+          <p>Drag and drop a folder, ZIP, or RAR. Accepts JPG, PNG, WEBP — up to 5,000+ images per batch.</p>
+        </div>
       </div>
       <div class="step">
-        <div class="step-num">2</div>
-        <h3>AI Classifies Colors</h3>
-        <p>Our AI Vision Pro engine detects vehicles, ignores backgrounds like smoke and grass, and identifies the exact paint color.</p>
+        <div class="step-visual" style="background:radial-gradient(circle at center, rgba(239,68,68,.08), var(--bg3));">
+          <div class="ai-brain">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M16.97 16.97l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M16.97 7.03l1.42-1.42"/></svg>
+          </div>
+        </div>
+        <div class="step-content">
+          <div class="step-num">2</div>
+          <h3>AI Classifies Colors</h3>
+          <p>AI Vision Pro detects vehicles, ignores smoke and backgrounds, and identifies the exact paint color in milliseconds.</p>
+        </div>
       </div>
       <div class="step">
-        <div class="step-num">3</div>
-        <h3>Download Sorted Folders</h3>
-        <p>Get your photos organized into color-labeled folders. Download as a ZIP or open directly. Done in seconds, not hours.</p>
+        <div class="step-visual">
+          <div class="sorted-folders">
+            <div class="folder">
+              <div class="folder-icon">📁</div>
+              <div class="folder-name">Red</div>
+              <div class="folder-count" style="color:#ef4444">24</div>
+              <div class="folder-dots"><span style="background:#ef4444"></span><span style="background:#ef4444"></span><span style="background:#ef4444"></span></div>
+            </div>
+            <div class="folder">
+              <div class="folder-icon">📁</div>
+              <div class="folder-name">Blue</div>
+              <div class="folder-count" style="color:#3b82f6">18</div>
+              <div class="folder-dots"><span style="background:#3b82f6"></span><span style="background:#3b82f6"></span><span style="background:#3b82f6"></span></div>
+            </div>
+            <div class="folder">
+              <div class="folder-icon">📁</div>
+              <div class="folder-name">White</div>
+              <div class="folder-count" style="color:#94a3b8">31</div>
+              <div class="folder-dots"><span style="background:#e2e8f0"></span><span style="background:#e2e8f0"></span><span style="background:#e2e8f0"></span></div>
+            </div>
+            <div class="folder">
+              <div class="folder-icon">📁</div>
+              <div class="folder-name">Yellow</div>
+              <div class="folder-count" style="color:#eab308">12</div>
+              <div class="folder-dots"><span style="background:#eab308"></span><span style="background:#eab308"></span><span style="background:#eab308"></span></div>
+            </div>
+          </div>
+        </div>
+        <div class="step-content">
+          <div class="step-num">3</div>
+          <h3>Download Sorted</h3>
+          <p>Get photos organized into color-labeled folders. Download as ZIP or open directly. Seconds, not hours.</p>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- Features -->
+  <!-- ── Before/After ── -->
+  <section class="before-after container">
+    <h2 class="section-title">Before &amp; After</h2>
+    <p class="section-sub">From chaos to organized in seconds.</p>
+    <div class="ba-grid">
+      <div class="ba-panel">
+        <h3>Before — Unsorted</h3>
+        <div class="messy-grid">
+          <div class="ph" style="background:#f87171"></div><div class="ph" style="background:#e2e8f0"></div>
+          <div class="ph" style="background:#93c5fd"></div><div class="ph" style="background:#fcd34d"></div>
+          <div class="ph" style="background:#334155"></div><div class="ph" style="background:#94a3b8"></div>
+          <div class="ph" style="background:#fb923c"></div><div class="ph" style="background:#e2e8f0"></div>
+          <div class="ph" style="background:#f87171"></div><div class="ph" style="background:#93c5fd"></div>
+          <div class="ph" style="background:#fcd34d"></div><div class="ph" style="background:#94a3b8"></div>
+          <div class="ph" style="background:#334155"></div><div class="ph" style="background:#fb923c"></div>
+          <div class="ph" style="background:#e2e8f0"></div><div class="ph" style="background:#f87171"></div>
+          <div class="ph" style="background:#93c5fd"></div><div class="ph" style="background:#94a3b8"></div>
+          <div class="ph" style="background:#fcd34d"></div><div class="ph" style="background:#334155"></div>
+        </div>
+      </div>
+      <div class="ba-arrow">→</div>
+      <div class="ba-panel">
+        <h3>After — Sorted by Color</h3>
+        <div class="sorted-grid">
+          <div class="sorted-row"><div class="label"><span class="cd" style="background:#ef4444"></span>Red</div><div class="thumbs"><div class="ph" style="background:#f87171"></div><div class="ph" style="background:#f87171"></div><div class="ph" style="background:#f87171"></div></div></div>
+          <div class="sorted-row"><div class="label"><span class="cd" style="background:#3b82f6"></span>Blue</div><div class="thumbs"><div class="ph" style="background:#93c5fd"></div><div class="ph" style="background:#93c5fd"></div><div class="ph" style="background:#93c5fd"></div></div></div>
+          <div class="sorted-row"><div class="label"><span class="cd" style="background:#e2e8f0"></span>White</div><div class="thumbs"><div class="ph" style="background:#e2e8f0"></div><div class="ph" style="background:#e2e8f0"></div><div class="ph" style="background:#e2e8f0"></div></div></div>
+          <div class="sorted-row"><div class="label"><span class="cd" style="background:#eab308"></span>Yellow</div><div class="thumbs"><div class="ph" style="background:#fcd34d"></div><div class="ph" style="background:#fcd34d"></div></div></div>
+          <div class="sorted-row"><div class="label"><span class="cd" style="background:#f97316"></span>Orange</div><div class="thumbs"><div class="ph" style="background:#fb923c"></div><div class="ph" style="background:#fb923c"></div></div></div>
+          <div class="sorted-row"><div class="label"><span class="cd" style="background:#94a3b8"></span>Silver</div><div class="thumbs"><div class="ph" style="background:#94a3b8"></div><div class="ph" style="background:#94a3b8"></div><div class="ph" style="background:#94a3b8"></div></div></div>
+          <div class="sorted-row"><div class="label"><span class="cd" style="background:#334155"></span>Black</div><div class="thumbs"><div class="ph" style="background:#334155;border:1px solid var(--w10)"></div><div class="ph" style="background:#334155;border:1px solid var(--w10)"></div></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Features ── -->
   <section id="features" class="features">
-    <div class="features-inner">
-      <h2>Built for Speed and Accuracy</h2>
+    <div class="container">
+      <h2 class="section-title">Built for Speed and Accuracy</h2>
+      <p class="section-sub">Everything motorsport photographers need.</p>
       <div class="feature-grid">
         <div class="feature">
-          <div class="feature-icon">&#9889;</div>
+          <div class="feature-icon" style="background:rgba(239,68,68,.1);color:var(--red);">&#9889;</div>
           <h3>3+ Images Per Second</h3>
-          <p>AI batches and processes up to 15 images simultaneously. Sort 1,000 photos in under 6 minutes.</p>
+          <p>AI batches 15 images simultaneously. Sort 1,000 photos in under 6 minutes.</p>
         </div>
         <div class="feature">
-          <div class="feature-icon">&#127912;</div>
+          <div class="feature-icon" style="background:rgba(59,130,246,.1);color:#3b82f6;">&#127912;</div>
           <h3>11 Color Categories</h3>
-          <p>Red, blue, green, yellow, orange, purple, pink, brown, black, white, and silver-grey — covering every vehicle on the grid.</p>
+          <p>Red, blue, green, yellow, orange, purple, pink, brown, black, white, silver-grey.</p>
         </div>
         <div class="feature">
-          <div class="feature-icon">&#128230;</div>
-          <h3>ZIP & RAR Support</h3>
-          <p>Drop a compressed archive directly. AutoHue extracts and processes in a streaming pipeline — no waiting for full extraction.</p>
+          <div class="feature-icon" style="background:rgba(249,115,22,.1);color:#f97316;">&#128230;</div>
+          <h3>ZIP &amp; RAR Support</h3>
+          <p>Drop compressed archives directly. Streaming extraction — no waiting.</p>
         </div>
         <div class="feature">
-          <div class="feature-icon">&#128065;</div>
+          <div class="feature-icon" style="background:rgba(168,85,247,.1);color:#a855f7;">&#128065;</div>
           <h3>Smart Detection</h3>
-          <p>Ignores smoke, dirt, grass, sky, and track surfaces. Focuses only on the vehicle body paint for accurate classification.</p>
+          <p>Ignores smoke, dirt, grass, sky. Focuses only on the vehicle body paint.</p>
         </div>
         <div class="feature">
-          <div class="feature-icon">&#128202;</div>
+          <div class="feature-icon" style="background:rgba(34,197,94,.1);color:#22c55e;">&#128202;</div>
           <h3>Live Dashboard</h3>
-          <p>Watch speed, accuracy, ETA, and cost savings in real-time. See every classification as it happens in the live feed.</p>
+          <p>Real-time speed, accuracy, ETA, and cost savings. See every classification live.</p>
         </div>
         <div class="feature">
-          <div class="feature-icon">&#128193;</div>
-          <h3>Browse & Review</h3>
-          <p>Full-size lightbox viewer with color-coded thumbnails. Click any image to review — reassign colors with one click if needed.</p>
+          <div class="feature-icon" style="background:rgba(236,72,153,.1);color:#ec4899;">&#128193;</div>
+          <h3>Browse &amp; Review</h3>
+          <p>Full-size lightbox viewer. Click to review. Reassign colors with one click.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Pricing -->
-  <section id="pricing" class="pricing">
-    <h2>Simple Pricing</h2>
-    <p class="subtitle">One-time purchase. Lifetime license. No subscriptions.</p>
+  <!-- ── Pricing ── -->
+  <section id="pricing" class="pricing container">
+    <h2 class="section-title">Simple Pricing</h2>
+    <p class="section-sub">Monthly plans that scale with you. Cancel anytime. Need more? Top up with credits.</p>
     <div class="pricing-grid">
       <div class="plan">
         <div class="plan-tier">Trial</div>
         <div class="plan-price">Free</div>
-        <div class="plan-desc">7-day trial period</div>
+        <div class="plan-desc">7-day trial</div>
         <ul class="plan-features">
           <li>50 images per day</li>
           <li>All file formats</li>
-          <li>Full AI engine access</li>
+          <li>Full AI engine</li>
         </ul>
         <a href="#download" class="btn btn-outline">Try Free</a>
       </div>
       <div class="plan">
-        <div class="plan-tier">Hobbyist</div>
-        <div class="plan-price">$49</div>
-        <div class="plan-desc">Lifetime license</div>
+        <div class="plan-tier">Starter</div>
+        <div class="plan-price">$19<small>/mo</small></div>
+        <div class="plan-desc">For casual shooters</div>
         <ul class="plan-features">
-          <li>500 images per day</li>
-          <li>Priority processing queue</li>
+          <li>200 images per day</li>
+          <li>~6,000 images/month</li>
           <li>All file formats</li>
+          <li>Credit top-ups available</li>
         </ul>
         <a href="#download" class="btn btn-outline">Get Started</a>
       </div>
-      <div class="plan featured">
-        <div class="plan-badge">Most Popular</div>
+      <div class="plan pop">
+        <div class="badge">Most Popular</div>
         <div class="plan-tier">Pro</div>
-        <div class="plan-price">$149</div>
-        <div class="plan-desc">Lifetime license</div>
+        <div class="plan-price">$49<small>/mo</small></div>
+        <div class="plan-desc">For event photographers</div>
         <ul class="plan-features">
-          <li>5,000 images per day</li>
+          <li>1,000 images per day</li>
+          <li>~30,000 images/month</li>
           <li>Batch processing</li>
           <li>Priority support</li>
+          <li>Credit top-ups available</li>
         </ul>
         <a href="#download" class="btn btn-red">Get Pro</a>
       </div>
       <div class="plan">
-        <div class="plan-tier">Unlimited</div>
-        <div class="plan-price">$349</div>
-        <div class="plan-desc">Lifetime license</div>
+        <div class="plan-tier">Business</div>
+        <div class="plan-price">$99<small>/mo</small></div>
+        <div class="plan-desc">For studios &amp; agencies</div>
         <ul class="plan-features">
-          <li>Unlimited images</li>
+          <li>5,000 images per day</li>
+          <li>~150,000 images/month</li>
           <li>Commercial use</li>
           <li>Priority everything</li>
+          <li>Credit top-ups available</li>
         </ul>
-        <a href="#download" class="btn btn-outline">Go Unlimited</a>
+        <a href="#download" class="btn btn-outline">Go Business</a>
+      </div>
+    </div>
+
+    <!-- Credit top-ups -->
+    <div style="text-align:center;margin-top:3rem;padding:2rem;background:var(--bg2);border:1px solid var(--w05);border-radius:1rem;max-width:700px;margin-left:auto;margin-right:auto;">
+      <h3 style="font-size:1.1rem;margin-bottom:.5rem;">Need More? Buy Credits</h3>
+      <p style="font-size:.85rem;color:var(--w40);margin-bottom:1.5rem;">Run out mid-event? Top up instantly — credits never expire.</p>
+      <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+        <div style="background:var(--bg);border:1px solid var(--w10);border-radius:.75rem;padding:1rem 1.5rem;text-align:center;min-width:120px;">
+          <div style="font-family:'Space Grotesk';font-weight:800;font-size:1.25rem;">$5</div>
+          <div style="font-size:.7rem;color:var(--w40);margin-top:.25rem;">500 images</div>
+        </div>
+        <div style="background:var(--bg);border:1px solid var(--w10);border-radius:.75rem;padding:1rem 1.5rem;text-align:center;min-width:120px;">
+          <div style="font-family:'Space Grotesk';font-weight:800;font-size:1.25rem;">$10</div>
+          <div style="font-size:.7rem;color:var(--w40);margin-top:.25rem;">1,200 images</div>
+        </div>
+        <div style="background:var(--bg);border:1px solid var(--red);border-radius:.75rem;padding:1rem 1.5rem;text-align:center;min-width:120px;box-shadow:0 0 20px var(--red-glow);">
+          <div style="font-family:'Space Grotesk';font-weight:800;font-size:1.25rem;color:var(--red);">$20</div>
+          <div style="font-size:.7rem;color:var(--w40);margin-top:.25rem;">3,000 images</div>
+          <div style="font-size:.55rem;color:#22c55e;margin-top:.125rem;">Best value</div>
+        </div>
+        <div style="background:var(--bg);border:1px solid var(--w10);border-radius:.75rem;padding:1rem 1.5rem;text-align:center;min-width:120px;">
+          <div style="font-family:'Space Grotesk';font-weight:800;font-size:1.25rem;">$50</div>
+          <div style="font-size:.7rem;color:var(--w40);margin-top:.25rem;">10,000 images</div>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- Download CTA -->
-  <section id="download" class="cta">
+  <!-- ── Social proof ── -->
+  <section class="proof container">
+    <p class="proof-quote">"I used to spend 3 hours sorting photos after every Powercruise event. Now it takes 5 minutes."</p>
+    <p class="proof-attr">— Motorsport photographer, QLD</p>
+  </section>
+
+  <!-- ── Download CTA ── -->
+  <section id="download" class="cta container">
     <h2>Ready to Stop Sorting Manually?</h2>
-    <p>Download AutoHue and sort your first batch in under 60 seconds. Free trial included.</p>
-    <a href="https://github.com/3dhuboz/autohue-desktop/releases/latest" class="btn btn-red" style="font-size:1rem;padding:.875rem 2.5rem;">
+    <p>Download AutoHue and sort your first batch in under 60 seconds. Free 7-day trial included.</p>
+    <a href="https://github.com/3dhuboz/autohue-desktop/releases/latest" class="btn btn-red btn-lg" style="position:relative;">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
       Download for Windows
     </a>
-    <p style="margin-top:1rem;font-size:.75rem;color:rgba(255,255,255,.2)">Windows 10+ &middot; 85 MB &middot; No account required</p>
+    <p style="margin-top:1rem;font-size:.75rem;color:var(--w20);">Windows 10+ &middot; ~85 MB &middot; No account required</p>
   </section>
 
-  <!-- Footer -->
+  <!-- ── Footer ── -->
   <footer class="footer">
-    <p>&copy; 2026 AutoHue. Built by <a href="https://pennywiseit.com.au" target="_blank">Pennywise IT</a>. All rights reserved.</p>
+    <p>&copy; 2026 AutoHue by <a href="https://pennywiseit.com.au" target="_blank">Pennywise IT</a>. All rights reserved.</p>
   </footer>
 
 </body>
