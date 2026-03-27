@@ -228,6 +228,18 @@
     /* ── Section dividers ── */
     .color-divider { height: 2px; background: linear-gradient(90deg, transparent 5%, #ef4444 15%, #f97316 30%, #eab308 45%, #22c55e 55%, #3b82f6 70%, #a855f7 85%, transparent 95%); opacity: .3; margin: 0; }
 
+    /* ── Watermark showcase ── */
+    .watermark-section { padding: 6rem 0; position: relative; overflow: hidden; background: linear-gradient(180deg, var(--bg) 0%, rgba(168,85,247,.03) 30%, rgba(236,72,153,.03) 70%, var(--bg) 100%); }
+    .wm-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
+    .wm-mockup { background: rgba(17,17,19,.7); backdrop-filter: blur(12px); border: 1px solid var(--w10); border-radius: 1rem; padding: 1.5rem; position: relative; }
+    .wm-mockup-img { width: 100%; aspect-ratio: 16/10; background: linear-gradient(135deg, #1e293b, #334155); border-radius: .5rem; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+    .wm-overlay { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+    .wm-stamp { font-family: 'Space Grotesk', sans-serif; font-weight: 800; font-size: 1.5rem; color: rgba(255,255,255,.15); transform: rotate(-25deg); letter-spacing: .1em; text-transform: uppercase; white-space: nowrap; pointer-events: none; }
+    .wm-features { list-style: none; }
+    .wm-features li { padding: .5rem 0; font-size: .9rem; color: var(--w70); display: flex; align-items: flex-start; gap: .75rem; }
+    .wm-features li .icon { width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: .85rem; flex-shrink: 0; margin-top: 2px; }
+    @media (max-width: 768px) { .wm-grid { grid-template-columns: 1fr; } }
+
     /* ── Social proof ── */
     .proof { padding: 5rem 0; text-align: center; position: relative; background: linear-gradient(180deg, var(--bg) 0%, rgba(239,68,68,.03) 50%, var(--bg) 100%); }
     .proof::before { content: '\201C'; position: absolute; top: 1.5rem; left: 50%; transform: translateX(-50%); font-size: 8rem; color: var(--red); opacity: .06; font-family: Georgia, serif; line-height: 1; pointer-events: none; }
@@ -557,6 +569,74 @@
           <div class="feature-icon" style="background:rgba(236,72,153,.1);color:#ec4899;">&#128193;</div>
           <h3>Browse &amp; Review</h3>
           <p>Full-size lightbox viewer. Click to review. Reassign colors with one click.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="color-divider"></div>
+
+  <!-- ── Watermark Editor ── -->
+  <section class="watermark-section">
+    <div class="container">
+      <div class="wm-grid">
+        <div>
+          <span style="display:inline-block;padding:.3rem .8rem;border-radius:2rem;background:rgba(168,85,247,.1);border:1px solid rgba(168,85,247,.2);font-size:.7rem;color:#a855f7;font-weight:700;margin-bottom:1.25rem;text-transform:uppercase;letter-spacing:.08em;">Pro Feature</span>
+          <h2 style="font-size:2rem;margin-bottom:.75rem;">Built-in Watermark Editor</h2>
+          <p style="color:var(--w40);margin-bottom:2rem;line-height:1.7;">Protect your work before you share it. Add your logo, text, or custom watermark to every sorted photo — automatically applied during the sort process. No extra software needed.</p>
+
+          <ul class="wm-features">
+            <li>
+              <span class="icon" style="background:rgba(168,85,247,.1);color:#a855f7;">&#9998;</span>
+              <div>
+                <strong style="display:block;font-size:.85rem;margin-bottom:.15rem;">Custom Text &amp; Logo</strong>
+                <span style="font-size:.75rem;color:var(--w40);">Add your business name, website, or import your logo as a watermark overlay</span>
+              </div>
+            </li>
+            <li>
+              <span class="icon" style="background:rgba(59,130,246,.1);color:#3b82f6;">&#8982;</span>
+              <div>
+                <strong style="display:block;font-size:.85rem;margin-bottom:.15rem;">Position &amp; Size Control</strong>
+                <span style="font-size:.75rem;color:var(--w40);">Place it anywhere — corner, center, tiled. Adjust opacity, size, and rotation</span>
+              </div>
+            </li>
+            <li>
+              <span class="icon" style="background:rgba(34,197,94,.1);color:#22c55e;">&#9889;</span>
+              <div>
+                <strong style="display:block;font-size:.85rem;margin-bottom:.15rem;">Applied During Sort</strong>
+                <span style="font-size:.75rem;color:var(--w40);">Watermarks are applied automatically as images are sorted — zero extra steps</span>
+              </div>
+            </li>
+            <li>
+              <span class="icon" style="background:rgba(239,68,68,.1);color:#ef4444;">&#128274;</span>
+              <div>
+                <strong style="display:block;font-size:.85rem;margin-bottom:.15rem;">Protect Before You Share</strong>
+                <span style="font-size:.75rem;color:var(--w40);">Share previews with clients without worrying about unauthorized use</span>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <div class="wm-mockup">
+          <div class="wm-mockup-img">
+            <!-- Simulated car photo with watermark overlay -->
+            <div style="width:100%;height:100%;background:linear-gradient(135deg, #374151 20%, #1f2937 50%, #374151 80%);display:flex;align-items:center;justify-content:center;position:relative;">
+              <!-- Fake car silhouette -->
+              <svg viewBox="0 0 200 60" width="60%" fill="rgba(255,255,255,.08)"><path d="M10 45 Q10 30 25 28 L55 28 L70 12 Q75 8 85 8 L145 8 Q155 8 160 14 L175 30 Q190 30 195 38 L195 45 Q195 50 190 50 L175 50 Q175 38 165 38 Q155 38 155 50 L60 50 Q60 38 50 38 Q40 38 40 50 L15 50 Q10 50 10 45Z"/></svg>
+              <!-- Watermark overlays -->
+              <div class="wm-overlay"><div class="wm-stamp">YOUR LOGO HERE</div></div>
+              <div class="wm-overlay" style="top:auto;bottom:8px;right:8px;left:auto;justify-content:flex-end;align-items:flex-end;">
+                <span style="font-size:.5rem;color:rgba(255,255,255,.2);font-family:monospace;">yourwebsite.com</span>
+              </div>
+            </div>
+          </div>
+          <div style="display:flex;gap:.5rem;margin-top:1rem;flex-wrap:wrap;">
+            <span style="padding:.25rem .5rem;border-radius:.375rem;background:var(--w05);border:1px solid var(--w05);font-size:.6rem;color:var(--w40);">Text watermark</span>
+            <span style="padding:.25rem .5rem;border-radius:.375rem;background:var(--w05);border:1px solid var(--w05);font-size:.6rem;color:var(--w40);">Logo overlay</span>
+            <span style="padding:.25rem .5rem;border-radius:.375rem;background:var(--w05);border:1px solid var(--w05);font-size:.6rem;color:var(--w40);">Adjustable opacity</span>
+            <span style="padding:.25rem .5rem;border-radius:.375rem;background:var(--w05);border:1px solid var(--w05);font-size:.6rem;color:var(--w40);">Custom position</span>
+            <span style="padding:.25rem .5rem;border-radius:.375rem;background:var(--w05);border:1px solid var(--w05);font-size:.6rem;color:var(--w40);">Batch apply</span>
+          </div>
         </div>
       </div>
     </div>
