@@ -42,9 +42,9 @@
     "url": "https://autohue.app",
     "offers": [
       {"@type": "Offer", "price": "0", "priceCurrency": "USD", "name": "Free Trial"},
-      {"@type": "Offer", "price": "29", "priceCurrency": "USD", "name": "Starter"},
+      {"@type": "Offer", "price": "19", "priceCurrency": "USD", "name": "Hobbyist"},
       {"@type": "Offer", "price": "79", "priceCurrency": "USD", "name": "Pro"},
-      {"@type": "Offer", "price": "149", "priceCurrency": "USD", "name": "Business"}
+      {"@type": "Offer", "price": "199", "priceCurrency": "USD", "name": "Unlimited"}
     ],
     "author": {"@type": "Organization", "name": "Pennywise IT", "url": "https://pennywiseit.com.au"}
   }
@@ -648,56 +648,70 @@
   <section id="pricing" class="pricing container">
     <h2 class="section-title">Simple Pricing</h2>
     <p class="section-sub">Monthly plans that scale with you. Cancel anytime. Need more? Top up with credits.</p>
+
+    <!-- Billing toggle -->
+    <div id="billing-toggle" style="display:flex;align-items:center;gap:.5rem;justify-content:center;margin-bottom:2.5rem;">
+      <button onclick="setBilling('monthly')" id="btn-monthly" class="billing-btn" style="padding:.5rem 1.25rem;border-radius:2rem;font-size:.8rem;font-weight:600;border:1px solid var(--w10);background:var(--w05);color:var(--w40);cursor:pointer;transition:all .2s;">Monthly</button>
+      <button onclick="setBilling('yearly')" id="btn-yearly" class="billing-btn active" style="padding:.5rem 1.25rem;border-radius:2rem;font-size:.8rem;font-weight:600;border:1px solid rgba(239,68,68,.3);background:rgba(239,68,68,.1);color:var(--red);cursor:pointer;transition:all .2s;position:relative;">
+        Yearly <span style="margin-left:.25rem;padding:.15rem .4rem;border-radius:1rem;background:rgba(34,197,94,.15);color:#22c55e;font-size:.55rem;font-weight:700;">Save 20%</span>
+      </button>
+    </div>
+
     <div class="pricing-grid">
       <div class="plan">
         <div class="plan-tier">Trial</div>
         <div class="plan-price">Free</div>
         <div class="plan-desc">See it in action</div>
         <ul class="plan-features">
-          <li>25 images per day</li>
-          <li>All file formats</li>
+          <li>50 images per day</li>
+          <li>7-day free trial</li>
           <li>Full AI engine</li>
+          <li>12 color categories</li>
         </ul>
         <a href="#download" class="btn btn-outline">Try Free</a>
       </div>
       <div class="plan">
-        <div class="plan-tier">Starter</div>
-        <div class="plan-price">$29<small>/mo</small></div>
+        <div class="plan-tier">Hobbyist</div>
+        <div class="plan-price" data-monthly="24" data-yearly="19">$19<small>/mo</small></div>
         <div class="plan-desc">For casual shooters</div>
+        <div class="plan-save" data-save="60" style="font-size:.65rem;color:#22c55e;margin-bottom:1rem;">Billed $228/yr · Save $60/yr</div>
         <ul class="plan-features">
-          <li>150 images per day</li>
-          <li>~4,500 images/month</li>
-          <li>All file formats</li>
+          <li>300 images per day</li>
+          <li>AI vision engine</li>
+          <li>Quick reassign</li>
+          <li>Email support</li>
           <li>Credit top-ups available</li>
         </ul>
-        <a href="#download" class="btn btn-outline">Get Started</a>
+        <a href="/checkout?tier=hobbyist&billing=yearly" class="btn btn-outline plan-cta" data-tier="hobbyist">Subscribe</a>
       </div>
       <div class="plan pop">
         <div class="badge">Most Popular</div>
         <div class="plan-tier">Pro</div>
-        <div class="plan-price">$79<small>/mo</small></div>
+        <div class="plan-price" data-monthly="99" data-yearly="79">$79<small>/mo</small></div>
         <div class="plan-desc">For event photographers</div>
-        <ul class="plan-features">
-          <li>500 images per day</li>
-          <li>~15,000 images/month</li>
-          <li>Batch processing</li>
-          <li>Priority support</li>
-          <li>Credit top-ups available</li>
-        </ul>
-        <a href="#download" class="btn btn-red">Get Pro</a>
-      </div>
-      <div class="plan">
-        <div class="plan-tier">Business</div>
-        <div class="plan-price">$149<small>/mo</small></div>
-        <div class="plan-desc">For studios &amp; agencies</div>
+        <div class="plan-save" data-save="240" style="font-size:.65rem;color:#22c55e;margin-bottom:1rem;">Billed $948/yr · Save $240/yr</div>
         <ul class="plan-features">
           <li>2,000 images per day</li>
-          <li>~60,000 images/month</li>
-          <li>Commercial use</li>
-          <li>Priority everything</li>
+          <li>Watermark editor</li>
+          <li>Batch folders &amp; ZIPs</li>
+          <li>Priority AI processing</li>
           <li>Credit top-ups available</li>
         </ul>
-        <a href="#download" class="btn btn-outline">Go Business</a>
+        <a href="/checkout?tier=pro&billing=yearly" class="btn btn-red plan-cta" data-tier="pro">Go Pro</a>
+      </div>
+      <div class="plan">
+        <div class="plan-tier">Unlimited</div>
+        <div class="plan-price" data-monthly="249" data-yearly="199">$199<small>/mo</small></div>
+        <div class="plan-desc">For studios &amp; agencies</div>
+        <div class="plan-save" data-save="600" style="font-size:.65rem;color:#22c55e;margin-bottom:1rem;">Billed $2,388/yr · Save $600/yr</div>
+        <ul class="plan-features">
+          <li>10,000 images per day</li>
+          <li>Commercial use license</li>
+          <li>Dedicated support</li>
+          <li>Multi-machine (2 PCs)</li>
+          <li>Credit top-ups available</li>
+        </ul>
+        <a href="/checkout?tier=unlimited&billing=yearly" class="btn btn-outline plan-cta" data-tier="unlimited">Go Unlimited</a>
       </div>
     </div>
 
@@ -726,6 +740,50 @@
       </div>
     </div>
   </section>
+
+  <script>
+    let currentBilling = 'yearly';
+    function setBilling(type) {
+      currentBilling = type;
+      const prices = document.querySelectorAll('.plan-price[data-monthly]');
+      const saves = document.querySelectorAll('.plan-save');
+      const ctas = document.querySelectorAll('.plan-cta');
+      const btnM = document.getElementById('btn-monthly');
+      const btnY = document.getElementById('btn-yearly');
+
+      prices.forEach(el => {
+        const m = el.getAttribute('data-monthly');
+        const y = el.getAttribute('data-yearly');
+        const price = type === 'yearly' ? y : m;
+        el.innerHTML = '$' + price + '<small>/mo</small>';
+      });
+
+      saves.forEach(el => {
+        el.style.display = type === 'yearly' ? 'block' : 'none';
+      });
+
+      ctas.forEach(el => {
+        const tier = el.getAttribute('data-tier');
+        el.href = '/checkout?tier=' + tier + '&billing=' + type;
+      });
+
+      if (type === 'monthly') {
+        btnM.style.background = 'rgba(255,255,255,.1)';
+        btnM.style.borderColor = 'rgba(255,255,255,.2)';
+        btnM.style.color = '#fff';
+        btnY.style.background = 'var(--w05)';
+        btnY.style.borderColor = 'var(--w10)';
+        btnY.style.color = 'var(--w40)';
+      } else {
+        btnY.style.background = 'rgba(239,68,68,.1)';
+        btnY.style.borderColor = 'rgba(239,68,68,.3)';
+        btnY.style.color = 'var(--red)';
+        btnM.style.background = 'var(--w05)';
+        btnM.style.borderColor = 'var(--w10)';
+        btnM.style.color = 'var(--w40)';
+      }
+    }
+  </script>
 
   <!-- ── Social proof ── -->
   <section class="proof container">
