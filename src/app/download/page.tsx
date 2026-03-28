@@ -108,13 +108,32 @@ export default function DownloadPage() {
             {secondaryFile && <span className="text-white/15">({formatSize(secondaryFile.size)})</span>}
           </button>
 
+          {/* Windows SmartScreen notice */}
+          {platform === 'windows' && (
+            <div className="bg-blue-500/5 border border-blue-500/20 rounded-xl p-4 mb-6 text-left">
+              <div className="flex items-start gap-3">
+                <i className="fas fa-shield-alt text-blue-400 mt-0.5" />
+                <div>
+                  <p className="text-xs font-bold text-blue-400 mb-1">Windows SmartScreen Notice</p>
+                  <p className="text-[11px] text-white/40 leading-relaxed">
+                    Windows may show a &ldquo;Windows protected your PC&rdquo; message. This is normal for new software.
+                    Click <strong className="text-white/60">&ldquo;More info&rdquo;</strong> then <strong className="text-white/60">&ldquo;Run anyway&rdquo;</strong> to install.
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* Steps */}
           <div className="border-t border-white/5 pt-6">
             <h3 className="text-xs font-bold text-white/30 mb-4 uppercase tracking-wider">Getting Started</h3>
             <div className="space-y-3 text-left">
               <div className="flex items-start gap-3">
                 <span className="w-5 h-5 rounded-full bg-racing-600/20 text-racing-400 text-[10px] font-bold flex items-center justify-center shrink-0 mt-0.5">1</span>
-                <p className="text-sm text-white/50">Install AutoHue and open the app</p>
+                <div>
+                  <p className="text-sm text-white/50">Download and run the installer</p>
+                  <p className="text-[10px] text-white/25">If SmartScreen appears: More info &rarr; Run anyway</p>
+                </div>
               </div>
               <div className="flex items-start gap-3">
                 <span className="w-5 h-5 rounded-full bg-racing-600/20 text-racing-400 text-[10px] font-bold flex items-center justify-center shrink-0 mt-0.5">2</span>
