@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Buy Credits — AutoHue</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    :root {
+      --bg: #09090b; --bg2: #111113;
+      --red: #ef4444; --red-glow: rgba(239,68,68,.15);
+      --w90: rgba(255,255,255,.9); --w70: rgba(255,255,255,.7); --w40: rgba(255,255,255,.4);
+      --w20: rgba(255,255,255,.2); --w10: rgba(255,255,255,.1); --w05: rgba(255,255,255,.05);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Outfit', sans-serif; background: var(--bg); color: #e5e5e5; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2rem 1rem; }
+    h1, h2 { font-family: 'Space Grotesk', sans-serif; }
+    .card { background: rgba(255,255,255,.045); backdrop-filter: blur(20px); border: 1px solid var(--w10); border-radius: 1.5rem; padding: 2.5rem; max-width: 460px; width: 100%; position: relative; }
+    .card::before { content: ''; position: absolute; top: 0; left: 10%; right: 10%; height: 2px; background: linear-gradient(90deg, transparent, var(--w40), transparent); border-radius: 2px; }
+    .back { color: var(--w40); font-size: .75rem; text-decoration: none; display: flex; align-items: center; gap: .4rem; margin-bottom: 1.5rem; transition: color .2s; }
+    .back:hover { color: var(--w70); }
+    h1 { font-size: 1.4rem; font-weight: 800; margin-bottom: .5rem; }
+    .subtitle { color: var(--w40); font-size: .8rem; margin-bottom: 1.5rem; }
+    .pack-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; margin-bottom: 1.5rem; }
+    .pack { padding: .75rem; border-radius: .5rem; border: 1px solid var(--w10); background: var(--w05); cursor: pointer; text-align: center; transition: all .2s; }
+    .pack:hover { border-color: var(--w20); }
+    .pack.active { border-color: var(--w40); background: rgba(255,255,255,.08); }
+    .pack-price { font-family: 'Space Grotesk'; font-weight: 800; font-size: 1.2rem; color: var(--w70); }
+    .pack-images { font-size: .7rem; color: var(--w40); margin-top: .15rem; }
+    .pack-per { font-size: .55rem; color: var(--w20); margin-top: .1rem; }
+    .upsell { background: rgba(239,68,68,.05); border: 1px solid rgba(239,68,68,.15); border-radius: .5rem; padding: .75rem 1rem; margin-bottom: 1.5rem; font-size: .7rem; color: var(--w40); text-align: center; }
+    .upsell a { color: var(--red); text-decoration: underline; font-weight: 600; }
+    .upsell strong { color: var(--w70); }
+    .divider { display: flex; align-items: center; gap: 1rem; margin: 1.25rem 0; color: var(--w20); font-size: .7rem; }
+    .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: var(--w10); }
+    #paypal-container { min-height: 55px; margin-bottom: .5rem; }
+    .fine-print { text-align: center; color: var(--w20); font-size: .6rem; margin-top: .75rem; }
+    .hidden { display: none; }
+    .error { color: #ef4444; font-size: .75rem; margin-bottom: 1rem; display: flex; align-items: center; gap: .4rem; }
+    .error::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #ef4444; flex-shrink: 0; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <a href="/#pricing" class="back"><i class="fas fa-arrow-left" style="font-size:.6rem"></i> Back to pricing</a>
+
+    <h1>Buy Credit Pack</h1>
+    <p class="subtitle">One-time purchase — credits are added to your account instantly.</p>
+
+    <!-- Pack selector -->
+    <div class="pack-grid">
+      <div class="pack" data-pack="500" data-price="5" onclick="pickPack(this)">
+        <div class="pack-price">$5</div>
+        <div class="pack-images">500 images</div>
+        <div class="pack-per">$0.010/img</div>
+      </div>
+      <div class="pack" data-pack="1200" data-price="10" onclick="pickPack(this)">
+        <div class="pack-price">$10</div>
+        <div class="pack-images">1,200 images</div>
+        <div class="pack-per">$0.008/img</div>
+      </div>
+      <div class="pack" data-pack="3000" data-price="20" onclick="pickPack(this)">
+        <div class="pack-price">$20</div>
+        <div class="pack-images">3,000 images</div>
+        <div class="pack-per">$0.007/img</div>
+      </div>
+      <div class="pack" data-pack="10000" data-price="50" onclick="pickPack(this)">
+        <div class="pack-price">$50</div>
+        <div class="pack-images">10,000 images</div>
+        <div class="pack-per">$0.005/img</div>
+      </div>
+    </div>
+
+    <!-- Upsell to subscription -->
+    <div class="upsell">
+      <i class="fas fa-bolt" style="color:var(--red);margin-right:.25rem;"></i>
+      <strong>A subscription is always better value.</strong><br>
+      Pro gives you 2,000 images/day (~60,000/mo) for just <strong>$79/mo</strong> — that's $0.001/img.<br>
+      <a href="/checkout?tier=pro&billing=yearly">Subscribe to Pro instead →</a>
+    </div>
+
+    <p class="error hidden" id="error"></p>
+
+    <div class="divider">Pay with PayPal</div>
+
+    <div id="paypal-container"></div>
+
+    <p class="fine-print">Credits are added to your account after payment. Credits never expire.</p>
+  </div>
+
+  <!-- PayPal SDK for one-time payments -->
+  <script src="https://www.paypal.com/sdk/js?client-id=AT27dCU0oiVq8HBwxQ882V68vNBRnjn3tbQMJM4dafCIAJ0kRV7gvMeuMmO89r0i69EF7mKiRjYv9CNe&currency=USD" data-sdk-integration-source="button-factory"></script>
+
+  <script>
+    const API_BASE = 'https://autohue-api.steve-700.workers.dev';
+
+    const PACKS = {
+      '500':   { images: 500,   price: '5.00',  label: '500 images' },
+      '1200':  { images: 1200,  price: '10.00', label: '1,200 images' },
+      '3000':  { images: 3000,  price: '20.00', label: '3,000 images' },
+      '10000': { images: 10000, price: '50.00', label: '10,000 images' },
+    };
+
+    // Read URL param
+    const params = new URLSearchParams(window.location.search);
+    let currentPack = params.get('pack') || '3000';
+    if (!PACKS[currentPack]) currentPack = '3000';
+
+    // Set initial active
+    function pickPack(el) {
+      currentPack = el.dataset.pack;
+      document.querySelectorAll('.pack').forEach(p => p.classList.remove('active'));
+      el.classList.add('active');
+      document.getElementById('error').classList.add('hidden');
+      renderPayPalButton();
+    }
+
+    // Set initial selection
+    document.querySelectorAll('.pack').forEach(p => {
+      if (p.dataset.pack === currentPack) p.classList.add('active');
+    });
+
+    function renderPayPalButton() {
+      const container = document.getElementById('paypal-container');
+      container.innerHTML = '';
+      const pack = PACKS[currentPack];
+
+      paypal.Buttons({
+        style: {
+          shape: 'pill',
+          color: 'silver',
+          layout: 'vertical',
+          label: 'pay',
+        },
+        createOrder: function(data, actions) {
+          return actions.order.create({
+            purchase_units: [{
+              description: 'AutoHue Credit Pack — ' + pack.label,
+              amount: {
+                value: pack.price,
+                currency_code: 'USD',
+              },
+            }],
+          });
+        },
+        onApprove: function(data, actions) {
+          return actions.order.capture().then(function(details) {
+            // Store for success page
+            localStorage.setItem('credit_pack', currentPack);
+            localStorage.setItem('credit_order_id', data.orderID);
+            localStorage.setItem('credit_payer_email', details.payer?.email_address || '');
+
+            // Notify backend
+            fetch(API_BASE + '/api/credits/purchase', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                orderId: data.orderID,
+                pack: currentPack,
+                images: pack.images,
+                amount: pack.price,
+                email: details.payer?.email_address || '',
+              }),
+            }).catch(() => {});
+
+            window.location.href = '/checkout/success?type=credits&pack=' + currentPack;
+          });
+        },
+        onError: function(err) {
+          const errEl = document.getElementById('error');
+          errEl.textContent = 'Payment failed. Please try again.';
+          errEl.classList.remove('hidden');
+          console.error('PayPal error:', err);
+        },
+      }).render('#paypal-container');
+    }
+
+    renderPayPalButton();
+  </script>
+</body>
+</html>
