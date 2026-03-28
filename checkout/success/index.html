@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment Successful — AutoHue</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    :root { --bg: #09090b; --red: #ef4444; --w10: rgba(255,255,255,.1); --w40: rgba(255,255,255,.4); --w05: rgba(255,255,255,.05); }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Outfit', sans-serif; background: var(--bg); color: #e5e5e5; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2rem 1rem; }
+    h1, h2 { font-family: 'Space Grotesk', sans-serif; }
+    .card { background: rgba(255,255,255,.045); backdrop-filter: blur(20px); border: 1px solid var(--w10); border-radius: 1.5rem; padding: 3rem; max-width: 500px; width: 100%; text-align: center; }
+    .icon { width: 80px; height: 80px; border-radius: 50%; background: rgba(34,197,94,.1); border: 2px solid rgba(34,197,94,.3); display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; }
+    .icon i { font-size: 2rem; color: #22c55e; }
+    h1 { font-size: 1.75rem; font-weight: 800; margin-bottom: .5rem; }
+    h1 span { color: #22c55e; }
+    .msg { color: var(--w40); font-size: .9rem; line-height: 1.6; margin-bottom: 2rem; }
+    .info { background: var(--w05); border: 1px solid var(--w10); border-radius: .75rem; padding: 1rem; margin-bottom: 1.5rem; font-size: .8rem; color: var(--w40); }
+    .info strong { color: #e5e5e5; }
+    .btn { display: inline-flex; align-items: center; gap: .5rem; padding: .75rem 2rem; border-radius: .75rem; font-size: .85rem; font-weight: 700; text-decoration: none; color: #fff; background: linear-gradient(135deg, #dc2626, #b91c1c); transition: all .3s; }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(220,38,38,.5); }
+    @keyframes popIn { from { transform: scale(0); } 50% { transform: scale(1.2); } to { transform: scale(1); } }
+    .icon { animation: popIn .5s cubic-bezier(.175,.885,.32,1.275) both; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="icon"><i class="fas fa-check"></i></div>
+    <h1>Payment <span>Successful!</span></h1>
+    <p class="msg">Your subscription is now active. Check your email for your license key — activate it in the AutoHue desktop app to start sorting.</p>
+    <div class="info" id="details"></div>
+    <a href="/#download" class="btn"><i class="fas fa-download"></i> Download AutoHue</a>
+  </div>
+  <script>
+    const API_BASE = 'https://autohue-api.steve-700.workers.dev';
+    const email = localStorage.getItem('checkout_email') || '';
+    const tier = localStorage.getItem('checkout_tier') || '';
+    const billing = localStorage.getItem('checkout_billing') || '';
+    const params = new URLSearchParams(window.location.search);
+    const subscriptionId = params.get('subscription_id') || params.get('token') || '';
+
+    const el = document.getElementById('details');
+    el.innerHTML = '<strong>Plan:</strong> ' + (tier.charAt(0).toUpperCase() + tier.slice(1)) + ' (' + billing + ')<br><strong>Email:</strong> ' + (email || 'Check your inbox');
+
+    // Activate subscription on the backend
+    if (subscriptionId && email) {
+      fetch(API_BASE + '/api/paypal/activate-subscription', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ subscriptionId, email }),
+      }).catch(() => {});
+    }
+  </script>
+</body>
+</html>

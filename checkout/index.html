@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout — AutoHue</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    :root {
+      --bg: #09090b; --bg2: #111113;
+      --red: #ef4444; --red-glow: rgba(239,68,68,.15);
+      --w90: rgba(255,255,255,.9); --w70: rgba(255,255,255,.7); --w40: rgba(255,255,255,.4);
+      --w20: rgba(255,255,255,.2); --w10: rgba(255,255,255,.1); --w05: rgba(255,255,255,.05);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Outfit', sans-serif; background: var(--bg); color: #e5e5e5; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2rem 1rem; }
+    h1, h2 { font-family: 'Space Grotesk', sans-serif; }
+    .card { background: rgba(255,255,255,.045); backdrop-filter: blur(20px); border: 1px solid var(--w10); border-radius: 1.5rem; padding: 2.5rem; max-width: 480px; width: 100%; position: relative; }
+    .card::before { content: ''; position: absolute; top: 0; left: 10%; right: 10%; height: 2px; background: linear-gradient(90deg, transparent, var(--red), transparent); border-radius: 2px; }
+    .back { color: var(--w40); font-size: .75rem; text-decoration: none; display: flex; align-items: center; gap: .4rem; margin-bottom: 1.5rem; transition: color .2s; }
+    .back:hover { color: var(--w70); }
+    h1 { font-size: 1.5rem; font-weight: 800; margin-bottom: .5rem; }
+    h1 span { color: var(--red); }
+    .subtitle { color: var(--w40); font-size: .85rem; margin-bottom: .25rem; }
+    .yearly-save { color: rgba(34,197,94,.7); font-size: .75rem; margin-bottom: 1.5rem; }
+    .toggle-row { display: flex; gap: .5rem; margin-bottom: 1rem; }
+    .toggle-btn { flex: 1; padding: .65rem; border-radius: .5rem; font-size: .75rem; font-weight: 600; border: 1px solid var(--w10); background: var(--w05); color: var(--w40); cursor: pointer; transition: all .2s; text-align: center; }
+    .toggle-btn.active-m { background: rgba(255,255,255,.1); border-color: var(--w20); color: #fff; }
+    .toggle-btn.active-y { background: rgba(239,68,68,.1); border-color: rgba(239,68,68,.3); color: var(--red); }
+    .tier-row { display: flex; gap: .5rem; margin-bottom: 1.5rem; }
+    .tier-btn { flex: 1; padding: .5rem; border-radius: .5rem; font-size: .7rem; font-weight: 600; border: 1px solid var(--w10); background: var(--w05); color: var(--w40); cursor: pointer; transition: all .2s; text-align: center; line-height: 1.4; }
+    .tier-btn.active { background: rgba(239,68,68,.1); border-color: rgba(239,68,68,.3); color: var(--red); }
+    .tier-btn small { display: block; font-size: .6rem; opacity: .6; }
+    .features { list-style: none; margin-bottom: 1.5rem; }
+    .features li { font-size: .85rem; color: var(--w70); padding: .35rem 0; display: flex; align-items: center; gap: .6rem; }
+    .features li::before { content: '\f00c'; font-family: 'Font Awesome 6 Free'; font-weight: 900; font-size: .6rem; color: var(--red); }
+    label { font-size: .75rem; color: var(--w40); display: block; margin-bottom: .4rem; }
+    input[type="email"] { width: 100%; padding: .75rem 1rem; border-radius: .5rem; background: var(--w05); border: 1px solid var(--w10); color: #fff; font-size: .85rem; outline: none; transition: border-color .2s; margin-bottom: 1rem; }
+    input[type="email"]:focus { border-color: rgba(239,68,68,.4); }
+    input[type="email"]::placeholder { color: var(--w20); }
+    .error { color: #ef4444; font-size: .75rem; margin-bottom: 1rem; display: flex; align-items: center; gap: .4rem; }
+    .error::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #ef4444; flex-shrink: 0; }
+    .btn-pay { width: 100%; padding: 1rem; border: none; border-radius: .75rem; font-size: .85rem; font-weight: 700; color: #fff; cursor: pointer; transition: all .3s; background: linear-gradient(135deg, #dc2626, #b91c1c); }
+    .btn-pay:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(220,38,38,.5); }
+    .btn-pay:active { transform: translateY(0); }
+    .btn-pay:disabled { opacity: .4; cursor: not-allowed; transform: none; box-shadow: none; }
+    .fine-print { text-align: center; color: var(--w20); font-size: .6rem; margin-top: 1rem; }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <a href="/#pricing" class="back"><i class="fas fa-arrow-left" style="font-size:.6rem"></i> Back to pricing</a>
+
+    <h1>Subscribe to <span id="plan-name">Pro</span></h1>
+    <p class="subtitle" id="plan-subtitle">$79/mo · 2,000/day · Cancel anytime</p>
+    <p class="yearly-save" id="yearly-save">Billed $948/yr · Save $240/yr vs monthly</p>
+
+    <!-- Billing toggle -->
+    <div class="toggle-row">
+      <button class="toggle-btn" id="btn-m" onclick="pickBilling('monthly')">Monthly</button>
+      <button class="toggle-btn active-y" id="btn-y" onclick="pickBilling('yearly')">Yearly <span style="margin-left:.25rem;padding:.1rem .35rem;border-radius:1rem;background:rgba(34,197,94,.15);color:#22c55e;font-size:.55rem;font-weight:700;">-20%</span></button>
+    </div>
+
+    <!-- Tier selector -->
+    <div class="tier-row">
+      <button class="tier-btn" data-tier="hobbyist" onclick="pickTier('hobbyist')">Hobbyist<small id="price-hobbyist">$19/mo</small></button>
+      <button class="tier-btn active" data-tier="pro" onclick="pickTier('pro')">Pro<small id="price-pro">$79/mo</small></button>
+      <button class="tier-btn" data-tier="unlimited" onclick="pickTier('unlimited')">Unlimited<small id="price-unlimited">$199/mo</small></button>
+    </div>
+
+    <!-- Features -->
+    <ul class="features" id="features-list"></ul>
+
+    <!-- Email -->
+    <label for="email">Email address</label>
+    <input type="email" id="email" placeholder="you@example.com">
+
+    <p class="error hidden" id="error"></p>
+
+    <button class="btn-pay" id="btn-pay" onclick="handleCheckout()">
+      <i class="fab fa-paypal"></i> Subscribe with PayPal — $79/mo (billed yearly)
+    </button>
+
+    <p class="fine-print">Your license key will be emailed after payment. Activate it in the AutoHue desktop app.</p>
+  </div>
+
+  <script>
+    const API_BASE = 'https://autohue-api.steve-700.workers.dev';
+
+    const PLANS = {
+      hobbyist: { name: 'Hobbyist', monthly: 24, yearly: 19, daily: '300/day', features: ['300 images per day', 'AI vision engine', '12 color categories', 'ZIP export', 'Email support'] },
+      pro:      { name: 'Pro', monthly: 99, yearly: 79, daily: '2,000/day', features: ['2,000 images per day', 'Watermark editor', 'Priority AI processing', 'Batch folders & ZIPs'] },
+      unlimited:{ name: 'Unlimited', monthly: 249, yearly: 199, daily: '10,000/day', features: ['10,000 images per day', 'Commercial use license', 'Dedicated support', 'Multi-machine (2 PCs)'] },
+    };
+
+    // PayPal Plan IDs — replace these with your actual PayPal plan IDs
+    const PAYPAL_IDS = {
+      hobbyist: { monthly: '', yearly: '' },
+      pro:      { monthly: '', yearly: '' },
+      unlimited:{ monthly: '', yearly: '' },
+    };
+
+    // Read URL params
+    const params = new URLSearchParams(window.location.search);
+    let currentTier = params.get('tier') || 'pro';
+    let currentBilling = params.get('billing') || 'yearly';
+    if (!PLANS[currentTier]) currentTier = 'pro';
+
+    function pickBilling(type) {
+      currentBilling = type;
+      render();
+    }
+
+    function pickTier(tier) {
+      currentTier = tier;
+      render();
+    }
+
+    function render() {
+      const plan = PLANS[currentTier];
+      const price = currentBilling === 'yearly' ? plan.yearly : plan.monthly;
+
+      document.getElementById('plan-name').textContent = plan.name;
+      document.getElementById('plan-subtitle').textContent = '$' + price + '/mo \u00b7 ' + plan.daily + ' \u00b7 Cancel anytime';
+
+      const saveEl = document.getElementById('yearly-save');
+      if (currentBilling === 'yearly') {
+        saveEl.textContent = 'Billed $' + (price * 12) + '/yr \u00b7 Save $' + ((plan.monthly - plan.yearly) * 12) + '/yr vs monthly';
+        saveEl.classList.remove('hidden');
+      } else {
+        saveEl.classList.add('hidden');
+      }
+
+      // Billing buttons
+      const btnM = document.getElementById('btn-m');
+      const btnY = document.getElementById('btn-y');
+      btnM.className = 'toggle-btn' + (currentBilling === 'monthly' ? ' active-m' : '');
+      btnY.className = 'toggle-btn' + (currentBilling === 'yearly' ? ' active-y' : '');
+
+      // Tier buttons
+      document.querySelectorAll('.tier-btn').forEach(b => {
+        b.className = 'tier-btn' + (b.dataset.tier === currentTier ? ' active' : '');
+      });
+
+      // Tier price labels
+      Object.keys(PLANS).forEach(k => {
+        const p = currentBilling === 'yearly' ? PLANS[k].yearly : PLANS[k].monthly;
+        document.getElementById('price-' + k).textContent = '$' + p + '/mo';
+      });
+
+      // Features
+      const list = document.getElementById('features-list');
+      list.innerHTML = plan.features.map(f => '<li>' + f + '</li>').join('');
+
+      // Button label
+      const billingLabel = currentBilling === 'yearly' ? '/mo (billed yearly)' : '/mo';
+      document.getElementById('btn-pay').innerHTML = '<i class="fab fa-paypal"></i> Subscribe with PayPal \u2014 $' + price + billingLabel;
+
+      // Clear error
+      document.getElementById('error').classList.add('hidden');
+    }
+
+    async function handleCheckout() {
+      const email = document.getElementById('email').value.trim();
+      const errEl = document.getElementById('error');
+      const btn = document.getElementById('btn-pay');
+
+      if (!email || !email.includes('@')) {
+        errEl.textContent = 'Please enter a valid email address';
+        errEl.classList.remove('hidden');
+        return;
+      }
+
+      const planId = PAYPAL_IDS[currentTier]?.[currentBilling] || '';
+      if (!planId) {
+        errEl.textContent = 'PayPal plan not yet configured for this tier. Please contact support.';
+        errEl.classList.remove('hidden');
+        return;
+      }
+
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Connecting to PayPal...';
+      errEl.classList.add('hidden');
+
+      localStorage.setItem('checkout_email', email);
+      localStorage.setItem('checkout_tier', currentTier);
+      localStorage.setItem('checkout_billing', currentBilling);
+
+      try {
+        const res = await fetch(API_BASE + '/api/paypal/create-subscription', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            tier: currentTier,
+            billing: currentBilling,
+            email,
+            planId,
+            returnUrl: window.location.origin + '/checkout/success',
+            cancelUrl: window.location.origin + '/checkout/cancel',
+          }),
+        });
+        const data = await res.json();
+        if (data.approveUrl) {
+          window.location.href = data.approveUrl;
+        } else {
+          errEl.textContent = data.error || 'Failed to create subscription';
+          errEl.classList.remove('hidden');
+        }
+      } catch {
+        errEl.textContent = 'Connection failed. Please try again.';
+        errEl.classList.remove('hidden');
+      }
+
+      btn.disabled = false;
+      render();
+    }
+
+    render();
+  </script>
+</body>
+</html>

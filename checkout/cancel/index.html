@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment Cancelled — AutoHue</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    :root { --bg: #09090b; --red: #ef4444; --w10: rgba(255,255,255,.1); --w40: rgba(255,255,255,.4); --w05: rgba(255,255,255,.05); }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Outfit', sans-serif; background: var(--bg); color: #e5e5e5; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2rem 1rem; }
+    h1 { font-family: 'Space Grotesk', sans-serif; font-size: 1.5rem; font-weight: 800; margin-bottom: .75rem; }
+    .card { background: rgba(255,255,255,.045); backdrop-filter: blur(20px); border: 1px solid var(--w10); border-radius: 1.5rem; padding: 3rem; max-width: 450px; width: 100%; text-align: center; }
+    .msg { color: var(--w40); font-size: .9rem; line-height: 1.6; margin-bottom: 2rem; }
+    .btn { display: inline-flex; align-items: center; gap: .5rem; padding: .75rem 2rem; border-radius: .75rem; font-size: .85rem; font-weight: 700; text-decoration: none; color: #fff; background: linear-gradient(135deg, #dc2626, #b91c1c); transition: all .3s; }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(220,38,38,.5); }
+    .btn-ghost { background: transparent; border: 1px solid var(--w10); color: var(--w40); margin-left: 1rem; }
+    .btn-ghost:hover { border-color: var(--w40); color: #fff; box-shadow: none; transform: none; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Payment Cancelled</h1>
+    <p class="msg">No worries — you weren't charged. You can try again anytime or start with the free trial.</p>
+    <a href="/#pricing" class="btn"><i class="fas fa-arrow-left"></i> Back to Pricing</a>
+    <a href="/#download" class="btn btn-ghost">Try Free</a>
+  </div>
+</body>
+</html>
