@@ -173,20 +173,24 @@
           localStorage.setItem('checkout_billing', currentBilling);
           localStorage.setItem('checkout_subscription_id', data.subscriptionID);
 
-          // Activate on backend
+          // Activate on backend — email comes from PayPal subscription details server-side
           fetch(API_BASE + '/api/paypal/activate-subscription', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
               subscriptionId: data.subscriptionID,
-              email: '',
+              email: data.payer?.email_address || '',
               tier: currentTier,
               billing: currentBilling,
             }),
-          }).catch(() => {});
-
-          // Redirect to success
-          window.location.href = '/checkout/success?subscription_id=' + data.subscriptionID;
+          }).then(r => r.json()).then(result => {
+            if (result.email) localStorage.setItem('checkout_email', result.email);
+            if (result.licenseKey) localStorage.setItem('checkout_license_key', result.licenseKey);
+            window.location.href = '/checkout/success/?subscription_id=' + data.subscriptionID;
+          }).catch(() => {
+            window.location.href = '/checkout/success/?subscription_id=' + data.subscriptionID;
+          });
+          return; // Don't redirect immediately — wait for activation
         },
         onError: function(err) {
           const errEl = document.getElementById('error');

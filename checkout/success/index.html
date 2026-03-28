@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Payment Successful — AutoHue</title>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
     :root { --bg: #09090b; --red: #ef4444; --w10: rgba(255,255,255,.1); --w40: rgba(255,255,255,.4); --w05: rgba(255,255,255,.05); }
@@ -17,11 +17,15 @@
     .icon i { font-size: 2rem; color: #22c55e; }
     h1 { font-size: 1.75rem; font-weight: 800; margin-bottom: .5rem; }
     h1 span { color: #22c55e; }
-    .msg { color: var(--w40); font-size: .9rem; line-height: 1.6; margin-bottom: 2rem; }
-    .info { background: var(--w05); border: 1px solid var(--w10); border-radius: .75rem; padding: 1rem; margin-bottom: 1.5rem; font-size: .8rem; color: var(--w40); }
+    .msg { color: var(--w40); font-size: .9rem; line-height: 1.6; margin-bottom: 1.5rem; }
+    .license-box { background: #1a1a1a; border: 1px solid #333; border-radius: .5rem; padding: 1rem; margin: 1rem 0; font-family: 'JetBrains Mono', monospace; font-size: 1.1rem; text-align: center; letter-spacing: 2px; color: var(--red); cursor: pointer; transition: all .2s; position: relative; }
+    .license-box:hover { border-color: var(--red); box-shadow: 0 0 20px rgba(239,68,68,.15); }
+    .license-box .copy-hint { position: absolute; right: .75rem; top: 50%; transform: translateY(-50%); font-size: .6rem; color: var(--w40); letter-spacing: 0; font-family: 'Outfit', sans-serif; }
+    .info { background: var(--w05); border: 1px solid var(--w10); border-radius: .75rem; padding: 1rem; margin-bottom: 1.5rem; font-size: .8rem; color: var(--w40); text-align: left; }
     .info strong { color: #e5e5e5; }
     .btn { display: inline-flex; align-items: center; gap: .5rem; padding: .75rem 2rem; border-radius: .75rem; font-size: .85rem; font-weight: 700; text-decoration: none; color: #fff; background: linear-gradient(135deg, #dc2626, #b91c1c); transition: all .3s; }
     .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(220,38,38,.5); }
+    .hidden { display: none; }
     @keyframes popIn { from { transform: scale(0); } 50% { transform: scale(1.2); } to { transform: scale(1); } }
     .icon { animation: popIn .5s cubic-bezier(.175,.885,.32,1.275) both; }
   </style>
@@ -30,28 +34,56 @@
   <div class="card">
     <div class="icon"><i class="fas fa-check"></i></div>
     <h1>Payment <span>Successful!</span></h1>
-    <p class="msg">Your subscription is now active. Check your email for your license key — activate it in the AutoHue desktop app to start sorting.</p>
+    <p class="msg" id="msg">Your subscription is now active. Check your email for your license key.</p>
+
+    <div class="license-box hidden" id="license-box" onclick="copyLicense()">
+      <span id="license-key"></span>
+      <span class="copy-hint"><i class="fas fa-copy"></i> Click to copy</span>
+    </div>
+
     <div class="info" id="details"></div>
+
+    <p class="msg" style="font-size:.75rem;">Paste this key into AutoHue Desktop → Settings to activate your license.</p>
+
     <a href="/#download" class="btn"><i class="fas fa-download"></i> Download AutoHue</a>
   </div>
   <script>
-    const API_BASE = 'https://autohue-api.steve-700.workers.dev';
     const email = localStorage.getItem('checkout_email') || '';
     const tier = localStorage.getItem('checkout_tier') || '';
     const billing = localStorage.getItem('checkout_billing') || '';
+    const licenseKey = localStorage.getItem('checkout_license_key') || '';
     const params = new URLSearchParams(window.location.search);
-    const subscriptionId = params.get('subscription_id') || params.get('token') || '';
+    const isCredits = params.get('type') === 'credits';
+    const pack = params.get('pack') || '';
 
     const el = document.getElementById('details');
-    el.innerHTML = '<strong>Plan:</strong> ' + (tier.charAt(0).toUpperCase() + tier.slice(1)) + ' (' + billing + ')<br><strong>Email:</strong> ' + (email || 'Check your inbox');
 
-    // Activate subscription on the backend
-    if (subscriptionId && email) {
-      fetch(API_BASE + '/api/paypal/activate-subscription', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ subscriptionId, email }),
-      }).catch(() => {});
+    if (isCredits) {
+      document.querySelector('h1 span').textContent = 'Complete!';
+      document.getElementById('msg').textContent = 'Your credits have been added to your account.';
+      el.innerHTML = '<strong>Credit Pack:</strong> ' + pack + ' images<br><strong>Email:</strong> ' + (localStorage.getItem('credit_payer_email') || 'Check your inbox');
+    } else {
+      const tierLabel = tier ? tier.charAt(0).toUpperCase() + tier.slice(1) : 'Pro';
+      el.innerHTML = '<strong>Plan:</strong> ' + tierLabel + ' (' + (billing || 'yearly') + ')<br><strong>Email:</strong> ' + (email || 'Check your inbox for your license key');
+
+      if (licenseKey) {
+        document.getElementById('license-key').textContent = licenseKey;
+        document.getElementById('license-box').classList.remove('hidden');
+        document.getElementById('msg').textContent = 'Your subscription is active! Here\'s your license key:';
+      }
+    }
+
+    function copyLicense() {
+      const key = document.getElementById('license-key').textContent;
+      navigator.clipboard.writeText(key).then(() => {
+        const box = document.getElementById('license-box');
+        box.style.borderColor = '#22c55e';
+        box.querySelector('.copy-hint').innerHTML = '<i class="fas fa-check"></i> Copied!';
+        setTimeout(() => {
+          box.style.borderColor = '#333';
+          box.querySelector('.copy-hint').innerHTML = '<i class="fas fa-copy"></i> Click to copy';
+        }, 2000);
+      });
     }
   </script>
 </body>
